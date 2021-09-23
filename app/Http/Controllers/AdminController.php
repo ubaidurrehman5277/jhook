@@ -102,7 +102,8 @@ class AdminController extends Controller
   }
 
   function add_menu(Request $req){
-     $menus   = Menu::orderby('id')->get();
+     $menus   = Menu::whereNull('main_menu')->orderby('id')->get();
+     $items   = Menu::orderby('id')->get();
         if (request()->isMethod('post')) {
             // dd($req->all());
             request()->validate([
@@ -116,7 +117,7 @@ class AdminController extends Controller
             $add_menu->save();
             return back()->with($message);
         }
-    return view('admin.add-menu',  compact('menus'));
+    return view('admin.add-menu',  compact('menus','items'));
   }
 
 }
