@@ -54,6 +54,7 @@
 						<div class="col-md-12 form-group">
 							 <label for="sel1">Main Menu</label><br>
                               <select name="main_menu" class="form-control" id="main_menu">
+                              	<option value="">Choose an Option</option>
                                 @foreach ($menus as $menu)
 									 @php
 		                                    if (!empty(old('main_menu'))) {
@@ -64,7 +65,7 @@
 		                                      $_menu = "";
 		                                    }
 		                              @endphp
-                                      <option value="{{ $menu->name }}" {{ $_menu == ($menu->name)?"selected":"" }}>{{ $menu->name }}
+                                      <option value="{{ $menu->id }}" {{ $_menu == ($menu->id)?"selected":"" }}>{{ $menu->name }}
                                     </option>
                                 @endforeach
                               </select>
@@ -89,27 +90,27 @@
 					<table class="table table-striped zero-configuration">
 						<thead>
 							<tr>
-								<th>#</th>
-								<th>Product Name</th>
-								<th>Product Quantity</th>
+								<th>Menu Name</th>
+								<th>Price</th>
+								<th>Main Menu</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							{{-- @forelse($products as  $product) --}}
+							@forelse($items as  $item)
 								<tr>
-									<td>{{-- {{ $product['id'] }} --}}</td>
-									<td>{{-- {{ $product['product_name'] }} --}}</td>
-									<td>{{-- {{ $product['quantity'] }} --}}</td>
+									<td>{{ $item->name }}</td>
+									<td>{{ $item->price }}</td>
+									<td>{{ $item->main_menu }}</td>
 									<td>
 										<a href="{{-- {{ route('add-product').'?id='.$product['id'] }} --}}"><i class="fa fa-edit"></i></a>
 									</td>
 								</tr>
-							{{-- @empty
+							@empty
 								<tr>
 									<th class="text-center" colspan="6">There is no record.</th>
 								</tr>
-							@endforelse --}}
+							@endforelse
 						</tbody>
 					</table>
 				</div>
