@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,7 @@ use App\Http\Controllers\AdminController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,13 +31,10 @@ Route::get('/invoice2', function () {
 Route::get('/admin', function () {
     return view('admin.login');
 });
-Route::match(['get','post'] , '/admin/dashboard' , [AdminController::class, 'dashboard'])->name('dashboard');
-Route::match(['get','post'] , '/admin' , [AdminController::class, 'login'])->middleware('guest:admin')->name('admin');
-Route::group(['prefix'=>'/','middleware'=>['auth:admin']],function(){
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    });
-    Route::match(['get','post'],'/admin/dashboard',[AdminController::class,'dashboard'])->name('dashboard');
+Route::match(['get','post'],'/admin',[AdminController::class,'login'])->middleware('guest:admin')->name('admin');
+Route::match(['get','post'],'/',[LoginController::class, 'login'])->middleware('guest:login')->name('login');
+Route::group(['prefix'=>'/admin','middleware'=>['auth:admin']],function(){
+    Route::match(['get','post'],'/dashboard',[AdminController::class,'dashboard'])->name('dashboard');
     Route::match(['get','post'],'/add_user',[AdminController::class,'add_user'])->name('add-user');
     Route::match(['get','post'],'/user_list',[AdminController::class,'user_list'])->name('user-list');
     Route::match(['get','post'],'/add_table',[AdminController::class,'add_table'])->name('add-table');
@@ -50,4 +49,11 @@ Route::group(['prefix'=>'/','middleware'=>['auth:admin']],function(){
     Auth::guard('admin')->logout();
     return redirect(route('admin'));
   })->name('adminlogout');
+});
+Route::group(['prefix'=>'/','middleware'=>['auth:user']],function(){
+    Route::match(['get','post'],'/sales',[LoginController::class,'sales'])->name('sales');
+  Route::get('/userlogout' , function(){
+    Auth::guard('login')->logout();
+    return redirect(route('login'));
+  })->name('userlogout');
 });

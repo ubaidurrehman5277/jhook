@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
-use App\Models\LoginUser;
+use App\Models\User;
 use App\Models\table;
 use App\Models\Product;
 use App\Models\Menu;
@@ -30,17 +30,16 @@ class AdminController extends Controller
   }
 
   function add_user(Request $req){
-     $users   = LoginUser::orderby('id')->get();
+     $users   = User::orderby('id')->get();
         if (request()->isMethod('post')) {
-            // dd($req->all());
             request()->validate([
                 'email'       => 'required',
                 'password'          => 'required',
                 
             ]);
-            $add_user = new LoginUser;
+            $add_user = new User;
             $add_user->email       = $req->email; 
-            $add_user->password             = md5($req->password);
+            $add_user->password             = bcrypt($req->password);
             $message = ['success' => 'User Added successfully'];         
             $add_user->save();
             return back()->with($message);
@@ -49,7 +48,7 @@ class AdminController extends Controller
   }
 
   function user_list(Request $req){
-     $users   = LoginUser::orderby('id')->get();
+     $users   = User::orderby('id')->get();
     return view('admin.users', compact('users'));
   }
 
