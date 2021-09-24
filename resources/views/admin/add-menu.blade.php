@@ -1,18 +1,16 @@
 @include('admin.layouts.header')
-{{-- @php
-	$paid_by = $paid_to = $amount = $description = "";
+@php
+	$menu_name = $price = $_menu = "";
 	if(!empty(old())){
-		$paid_by = old('paid_by');
-		$paid_to = old('paid_to');
-		$amount = old('amount');
-		$description = old('description');
+		$menu_name = old('menu_name');
+		$price = old('price');
+		$_menu = old('_menu');
 	}else if(isset($data) and !empty($data)){
-		$paid_by = $data->paid_by;
-		$paid_to = $data->paid_to;
-		$amount = $data->amount;
-		$description = $data->description;
+		$menu_name = $data->name;
+		$price = $data->price;
+		$_menu = $data->main_menu;
 	}
-@endphp --}}
+@endphp
 <div class="row">
 	<div class="col-md-6">
 		<div class="card border-info">
@@ -20,55 +18,47 @@
 				<h3 class="text-white">Add Menu</h3>
 			</div>
 			<div class="card-body">
-				<form action="{{ route('add-menu') }}" method="post">
+				<form action="{{ (!empty($data)) ? route('add-menu')."?id=".$data->id : route('add-menu') }}" method="post">
 					@csrf
 					<div class="row">
 						<div class="col-md-12">
-	                        @if(session()->has("success"))
-	                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-	                              {!! session("success") !!}
-	                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-	                                <span aria-hidden="true">&times;</span>
-	                              </button>
-	                            </div>
-	                        @endif
-	                        @if(session()->has("error"))
-	                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-	                              {!! session("error") !!}
-	                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-	                                <span aria-hidden="true">&times;</span>
-	                              </button>
-	                            </div>
-	                        @endif
-	                    </div>
+                @if(session()->has("success"))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                      {!! session("success") !!}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                @endif
+                @if(session()->has("error"))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                      {!! session("error") !!}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                @endif
+            </div>
 						<div class="col-md-6 form-group">
 							<label for="">Menu Name  <span class="req">*</span></label>
-							<input type="text" name="menu_name" class="form-control menu_name" value="{{-- {{ $menu_name }} --}}">
+							<input type="text" name="menu_name" class="form-control menu_name" value="{{ $menu_name }}">
 							@error('menu_name') <div class="text-danger">{!! $message !!}</div> @enderror
 						</div>
 						<div class="col-md-6 form-group">
 							<label for="">Price</label>
-							<input type="text" name="price" class="form-control price" value="{{-- {{ $price }} --}}">
+							<input type="text" name="price" class="form-control price" value="{{ $price }}">
 							@error('price') <div class="text-danger">{!! $message !!}</div> @enderror
 						</div>
 						<div class="col-md-12 form-group">
-							 <label for="sel1">Main Menu</label><br>
-                              <select name="main_menu" class="form-control" id="main_menu">
-                              	<option value="">Choose an Option</option>
-                                @foreach ($menus as $menu)
-									 @php
-		                                    if (!empty(old('main_menu'))) {
-		                                      $_menu = old('main_menu');
-		                                    }elseif(!empty($menus)){
-		                                      $_menu = $menu->name;
-		                                    }else{
-		                                      $_menu = "";
-		                                    }
-		                              @endphp
-                                      <option value="{{ $menu->id }}" {{ $_menu == ($menu->id)?"selected":"" }}>{{ $menu->name }}
-                                    </option>
-                                @endforeach
-                              </select>
+							<label for="sel1">Main Menu</label><br>
+              <select name="main_menu" class="form-control" id="main_menu">
+              	<option value="">Choose an Option</option>
+                @foreach ($menus as $menu)
+                  <option value="{{ $menu->id }}" {{ $_menu == ($menu->id)?"selected":"" }}>
+                  	{{ $menu->name }}
+                  </option>
+                @endforeach
+              </select>
 						</div>
 
 						<div class="col-md-12 text-right">
@@ -90,7 +80,7 @@
 					<table class="table table-striped zero-configuration">
 						<thead>
 							<tr>
-								<th>Menu Name</th>
+								<th>Name</th>
 								<th>Price</th>
 								<th>Main Menu</th>
 								<th>Action</th>
@@ -98,12 +88,20 @@
 						</thead>
 						<tbody>
 							@forelse($items as  $item)
+								@php
+									if (!empty($item->main_menu)) {
+										$mmdad = $items->where('id',$item->main_menu)->first();
+										$mm = ($mmdad) ? $mmdad->name : "";
+									}else{
+										$mm = "";
+									}
+								@endphp
 								<tr>
 									<td>{{ $item->name }}</td>
 									<td>{{ $item->price }}</td>
-									<td>{{ $item->main_menu }}</td>
+									<td>{{ $mm }}</td>
 									<td>
-										<a href="{{-- {{ route('add-product').'?id='.$product['id'] }} --}}"><i class="fa fa-edit"></i></a>
+										<a href="{{ route('add-menu').'?id='.$item->id }}"><i class="fa fa-edit"></i></a>
 									</td>
 								</tr>
 							@empty

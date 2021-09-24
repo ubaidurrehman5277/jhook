@@ -102,21 +102,29 @@ class AdminController extends Controller
   }
 
   function add_menu(Request $req){
-     $menus   = Menu::whereNull('main_menu')->orderby('id')->get();
-     $items   = Menu::orderby('id')->get();
-        if (request()->isMethod('post')) {
-            // dd($req->all());
-            request()->validate([
-                'menu_name'          => 'required',
-            ]);
+    $menus   = Menu::whereNull('main_menu')->orderby('id','desc')->get();
+    $items   = Menu::orderby('id','desc')->get();
+    if (request()->isMethod('post')) {
+        request()->validate([
+            'menu_name'          => 'required',
+        ]);
+        if (request()->has('id')) {
+            $add_menu = Menu::find(request('id'));
+            $message = ['success' => 'Menu has been updated successfully'];
+        }else{
             $add_menu = new Menu;
-            $add_menu->name       = $req->menu_name; 
-            $add_menu->price      = $req->price;
-            $add_menu->main_menu  = $req->main_menu;
-            $message = ['success' => 'Menu Added successfully'];         
-            $add_menu->save();
-            return back()->with($message);
+            $add_menu->created_at = date('Y-m-d H:i:s');
+            $message = ['success' => 'Menu has been added successfully'];
         }
+        $add_menu->name       = $req->menu_name;
+        $add_menu->price      = $req->price;
+        $add_menu->main_menu  = $req->main_menu;
+        $add_menu->save();
+        return back()->with($message);
+    }elseif(request()->has('id') and is_numeric(request('id'))){
+        $data = Menu::find(request('id'));
+        return view('admin.add-menu', compact('menus','items','data'));
+    }
     return view('admin.add-menu',  compact('menus','items'));
   }
 
