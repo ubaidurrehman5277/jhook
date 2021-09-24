@@ -174,6 +174,7 @@ class AdminController extends Controller
         }
         $add_menu->name       = $req->menu_name;
         $add_menu->price      = $req->price;
+        $add_menu->asuming_price = $req->assuming_price;
         $add_menu->main_menu  = $req->main_menu;
         $add_menu->save();
         return back()->with($message);

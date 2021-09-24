@@ -31,7 +31,7 @@ Route::get('/admin', function () {
 });
 Route::match(['get','post'] , '/admin/dashboard' , [AdminController::class, 'dashboard'])->name('dashboard');
 Route::match(['get','post'] , '/admin' , [AdminController::class, 'login'])->middleware('guest:admin')->name('admin');
-Route::group(['prefix'=>'/','middleware'=>['auth:admin']],function(){
+Route::group(['prefix'=>'/admin','middleware'=>['auth:admin']],function(){
     Route::get('/admin/dashboard', function () {
         return view('admin.dashboard');
     });
