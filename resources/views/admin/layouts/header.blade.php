@@ -92,9 +92,7 @@
                             <li>
                                 <a href="{{ route('add-menu') }}" class="{{ (Request::segment(1) == 'add-menu') ? "active" : "" }}">Add New Menu</a>
                             </li>
-                            <li>
-                                <a href="{{-- {{ route('product-list') }} --}}">Menu List</a>
-                            </li>
+                            
                         </ul>
                     </li>
                     <li class="nav-label">Tables</li>
@@ -124,15 +122,15 @@
                     </li>
 
                     <li class="nav-label">Reports</li>
-                    <li class="{{-- {{ (Request::segment(1) == 'add-expense') ? "active" : "" }} --}}">
+                    <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="icon-menu menu-icon"></i> <span class="nav-text">Reports</span>
                         </a>
                         <ul aria-expanded="false">
                             <li>
-                                <a href="{{-- {{ route('add-customer') }}" class="{{ (Request::segment(1) == 'add-customer') ? "active" : "" }} --}}">Net Sale Report</a>
+                                <a href="#" class="">Net Sale Report</a>
                             </li>
-                            <li><a href="{{-- {{ route('customers') }} --}}">Profit/Loss Report</a></li>
+                            <li><a href="#">Profit/Loss Report</a></li>
                         </ul>
                     </li>
                     <li class="nav-label">Closing</li>

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
-use App\Models\LoginUser;
+use App\Models\User;
 use App\Models\table;
 use App\Models\Product;
 use App\Models\Menu;
@@ -30,7 +30,8 @@ class AdminController extends Controller
   }
 
   function add_user(Request $req){
-     $users   = LoginUser::orderby('id')->get();
+    // $users   = User::orderby('id')->get();
+    $data   = User::where('id', request('id'))->first();
         if (request()->isMethod('post')) {
             // dd($req->all());
             request()->validate([
@@ -38,23 +39,42 @@ class AdminController extends Controller
                 'password'          => 'required',
                 
             ]);
-            $add_user = new LoginUser;
+            
+            if (request()->has('id')) {
+            $add_user = User::find(request('id'));
+            $message = ['success' => 'User has been updated successfully'];
+            }else{
+              $add_user = new User;
+              $message = ['success' => 'User Added successfully'];
+            }   
             $add_user->email       = $req->email; 
-            $add_user->password             = md5($req->password);
-            $message = ['success' => 'User Added successfully'];         
+            $add_user->password             = md5($req->password);          
             $add_user->save();
             return back()->with($message);
-        }
-    return view('admin.add-user',compact('users'));
+          }
+      return view('admin.add-user',compact('data'));
   }
 
   function user_list(Request $req){
-     $users   = LoginUser::orderby('id')->get();
+     if (request()->has('id')) {
+            if (is_numeric(request('id'))) {
+                $users = User::
+                    where('id', request('id'))
+                    ->delete();
+                return back()->with('success', 'User has been deleted successfully');
+            } else {
+                return back();
+            }
+
+        }else{
+          $users   = User::orderby('id','desc')->get();
+        }
     return view('admin.users', compact('users'));
   }
 
   function add_table(Request $req){
-     $tables   = table::orderby('id')->get();
+     // $tables   = table::orderby('id')->get();
+    $data   = table::where('id', request('id'))->first();
         if (request()->isMethod('post')) {
             // dd($req->all());
             request()->validate([
@@ -62,23 +82,42 @@ class AdminController extends Controller
                 'capacity'          => 'required',
                 
             ]);
-            $add_table = new table;
+            
+            if (request()->has('id')) {
+            $add_table = table::find(request('id'));
+            $message = ['success' => 'Table has been updated successfully'];
+            }else{
+              $add_table = new table;
+              $message = ['success' => 'Table Added successfully'];
+            }   
             $add_table->table_no       = $req->table_no; 
-            $add_table->capacity             = $req->capacity;
-            $message = ['success' => 'Table Added successfully'];         
+            $add_table->capacity        = $req->capacity;          
             $add_table->save();
             return back()->with($message);
-        }
-    return view('admin.add-table', compact('tables'));
+          }
+      return view('admin.add-table',compact('data'));
   }  
 
   function tables(Request $req){
-     $tables   = table::orderby('id')->get();
+    if (request()->has('id')) {
+            if (is_numeric(request('id'))) {
+                $tables = table::
+                    where('id', request('id'))
+                    ->delete();
+                return back()->with('success', 'Table has been deleted successfully');
+            } else {
+                return back();
+            }
+
+        }else{
+          $tables   = table::orderby('id','desc')->get();
+        }
     return view('admin.tables', compact('tables'));
   }
 
    function add_product(Request $req){
-     $products   = Product::orderby('id')->get();
+     // $products   = Product::orderby('id')->get();
+    $data   = Product::where('id', request('id'))->first();
         if (request()->isMethod('post')) {
             // dd($req->all());
             request()->validate([
@@ -86,18 +125,35 @@ class AdminController extends Controller
                 'quantity'          => 'required',
                 
             ]);
-            $add_product = new Product;
+            if (request()->has('id')) {
+            $add_product = Product::find(request('id'));
+            $message = ['success' => 'Product has been updated successfully'];
+            }else{
+              $add_product = new Product;
+              $message = ['success' => 'Product Added successfully']; 
+            }
             $add_product->product_name       = $req->product_name; 
-            $add_product->quantity             = $req->quantity;
-            $message = ['success' => 'Product Added successfully'];         
+            $add_product->quantity             = $req->quantity;        
             $add_product->save();
             return back()->with($message);
         }
-    return view('admin.add-product', compact('products'));
+    return view('admin.add-product', compact('data'));
   }
 
   function product_list(Request $req){
-     $products   = Product::orderby('id')->get();
+     if (request()->has('id')) {
+            if (is_numeric(request('id'))) {
+                $products = Product::
+                    where('id', request('id'))
+                    ->delete();
+                return back()->with('success', 'Product has been deleted successfully');
+            } else {
+                return back();
+            }
+
+        }else{
+          $products   = Product::orderby('id')->get();
+        }
     return view('admin.product-list', compact('products'));
   }
 

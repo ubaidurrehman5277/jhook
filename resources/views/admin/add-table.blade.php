@@ -20,7 +20,7 @@
 				<h3 class="text-white">Add Expense</h3>
 			</div>
 			<div class="card-body">
-				<form action="{{ route('add-table') }}" method="post">
+				<form action="" method="post">
 					@csrf
 					<div class="row">
 						<div class="col-md-12">
@@ -42,13 +42,31 @@
 	                        @endif
 	                    </div>
 						<div class="col-md-6 form-group">
+							@php
+	                            if (isset($_POST['table_no'])) {
+	                              $_table_no = $_POST['table_no'];
+	                            }elseif(!empty($data)){
+	                              $_table_no = $data['table_no'];
+	                            }else{
+	                              $_table_no = "";
+	                            }
+	                          @endphp
 							<label for="">Table No: <span class="req">*</span></label>
-							<input type="number" name="table_no" class="form-control table_no" value="{{-- {{ $table_no }} --}}">
+							<input type="number" name="table_no" class="form-control table_no" value="{{ $_table_no }}">
 							@error('table_no') <div class="text-danger">{!! $message !!}</div> @enderror
 						</div>
 						<div class="col-md-6 form-group">
+							@php
+	                            if (isset($_POST['capacity'])) {
+	                              $_capacity = $_POST['capacity'];
+	                            }elseif(!empty($data)){
+	                              $_capacity = $data['capacity'];
+	                            }else{
+	                              $_capacity = "";
+	                            }
+	                          @endphp
 							<label for="">Capacity <span class="req">*</span></label>
-							<input type="number" name="capacity" class="form-control capacity" value="{{-- {{ $capacity }} --}}">
+							<input type="number" name="capacity" class="form-control capacity" value="{{ $_capacity }}">
 							@error('capacity') <div class="text-danger">{!! $message !!}</div> @enderror
 						</div>
 						
