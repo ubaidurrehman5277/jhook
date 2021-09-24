@@ -43,8 +43,17 @@
 	                    </div>
 						
 						<div class="col-md-6 form-group">
+							 @php
+	                            if (isset($_POST['email'])) {
+	                              $_email = $_POST['email'];
+	                            }elseif(!empty($data)){
+	                              $_email = $data['email'];
+	                            }else{
+	                              $_email = "";
+	                            }
+	                          @endphp
 							<label for="">Email <span class="req">*</span></label>
-							<input type="text" name="email" class="form-control email" value="{{-- {{ $email }} --}}">
+							<input type="text" name="email" class="form-control email" value="{{ $_email }}">
 							@error('email') <div class="text-danger">{!! $message !!}</div> @enderror
 						</div>
 						<div class="col-md-6 form-group">

@@ -20,7 +20,7 @@
 				<h3 class="text-white">Add New Purchase</h3>
 			</div>
 			<div class="card-body">
-				<form action="{{ route('add-product') }}" method="post">
+				<form action="" method="post">
 					@csrf
 					<div class="row">
 						<div class="col-md-12">
@@ -42,13 +42,31 @@
 	                        @endif
 	                    </div>
 						<div class="col-md-6 form-group">
+							@php
+	                            if (isset($_POST['product_name'])) {
+	                              $_product_name = $_POST['product_name'];
+	                            }elseif(!empty($data)){
+	                              $_product_name = $data['product_name'];
+	                            }else{
+	                              $_product_name = "";
+	                            }
+	                          @endphp
 							<label for="">Product Name <span class="req">*</span></label>
-							<input type="text" name="product_name" class="form-control product_name" value="{{-- {{ $product_name }} --}}">
+							<input type="text" name="product_name" class="form-control product_name" value="{{ $_product_name }}">
 							@error('product_name') <div class="text-danger">{!! $message !!}</div> @enderror
 						</div>
 						<div class="col-md-6 form-group">
+							@php
+	                            if (isset($_POST['quantity'])) {
+	                              $_quantity = $_POST['quantity'];
+	                            }elseif(!empty($data)){
+	                              $_quantity = $data['quantity'];
+	                            }else{
+	                              $_quantity = "";
+	                            }
+	                          @endphp
 							<label for=""> Quantity <span class="req">*</span></label>
-							<input type="text" name="quantity" class="form-control quantity" value="{{-- {{ $quantity }} --}}">
+							<input type="text" name="quantity" class="form-control quantity" value="{{ $_quantity }}">
 							@error('quantity') <div class="text-danger">{!! $message !!}</div> @enderror
 						</div>
 						

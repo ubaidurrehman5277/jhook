@@ -39,15 +39,20 @@
                     </div>
                 @endif
             </div>
-						<div class="col-md-6 form-group">
+						<div class="col-md-12 form-group">
 							<label for="">Menu Name  <span class="req">*</span></label>
 							<input type="text" name="menu_name" class="form-control menu_name" value="{{ $menu_name }}">
 							@error('menu_name') <div class="text-danger">{!! $message !!}</div> @enderror
 						</div>
-						<div class="col-md-6 form-group">
+						<div class="col-md-12 form-group">
 							<label for="">Price</label>
 							<input type="text" name="price" class="form-control price" value="{{ $price }}">
 							@error('price') <div class="text-danger">{!! $message !!}</div> @enderror
+						</div>
+						<div class="col-md-12 form-group">
+							<label for="">Assuming Price</label>
+							<input type="text" name="assuming_price" class="form-control assuming_price" value="{{-- {{ $assuming_price }} --}}">
+							@error('assuming_price') <div class="text-danger">{!! $message !!}</div> @enderror
 						</div>
 						<div class="col-md-12 form-group">
 							<label for="sel1">Main Menu</label><br>

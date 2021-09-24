@@ -16,20 +16,12 @@ use App\Http\Controllers\LoginController;
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/invoice', function () {
     return view('invoice');
 });
 
 Route::get('/invoice2', function () {
     return view('invoice2');
-});
-
-Route::get('/admin', function () {
-    return view('admin.login');
 });
 Route::match(['get','post'],'/admin',[AdminController::class,'login'])->middleware('guest:admin')->name('admin');
 Route::match(['get','post'],'/',[LoginController::class, 'login'])->middleware('guest:login')->name('login');
