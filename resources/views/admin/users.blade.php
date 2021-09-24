@@ -8,7 +8,7 @@
 	<div class="col-md-12">
 		<div class="card border-info">
 			<div class="card-header bg-info">
-				<h3 class="text-white">Customer List</h3>
+				<h3 class="text-white">User List</h3>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
@@ -17,7 +17,7 @@
 							<tr>
 								<th>#</th>
 								<th>Email</th>
-								<th>Action</th>
+								<th style="text-align: center;">Action</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -25,7 +25,8 @@
 								<tr>
 									<td>{{ ++$key }}</td>
 									<td>{{ $value->email }}</td>
-									<td>
+									<td style="text-align: center;">
+										<a href="{{ route('add-user').'?id='.$value->id }}"><i class="fa fa-trash"></i></a>
 										<a href="{{ route('add-user').'?id='.$value->id }}"><i class="fa fa-edit"></i></a>
 									</td>
 								</tr>
