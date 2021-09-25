@@ -35,45 +35,44 @@ class AdminController extends Controller
   }
 
   function add_user(Request $req){
-    // $users   = User::orderby('id')->get();
+    $users   = User::orderby('id','desc')->get();
     $data   = User::where('id', request('id'))->first();
-        if (request()->isMethod('post')) {
-            // dd($req->all());
-            request()->validate([
-                'email'       => 'required',
-                'password'          => 'required',
-                
-            ]);
+    if (request()->isMethod('post')) {
+        request()->validate([
+            'email'       => 'required',
+            'password'          => 'required',
             
-            if (request()->has('id')) {
+        ]);
+        if (request()->has('id')) {
             $add_user = User::find(request('id'));
             $message = ['success' => 'User has been updated successfully'];
-            }else{
-              $add_user = new User;
-              $message = ['success' => 'User Added successfully'];
-            }   
-            $add_user->email       = $req->email; 
-            $add_user->password             = md5($req->password);          
-            $add_user->save();
-            return back()->with($message);
-          }
-      return view('admin.add-user',compact('data'));
+        }else{
+          $add_user = new User;
+          $message = ['success' => 'User Added successfully'];
+        }   
+        $add_user->email       = $req->email; 
+        $add_user->password             = bcrypt($req->password);
+        $add_user->save();
+        return back()->with($message);
+    }
+    return view('admin.add-user',compact('data'));
   }
 
   function user_list(Request $req){
-     if (request()->has('id')) {
-            if (is_numeric(request('id'))) {
-                $users = User::
-                    where('id', request('id'))
-                    ->delete();
-                return back()->with('success', 'User has been deleted successfully');
-            } else {
-                return back();
-            }
-
-        }else{
-          $users   = User::orderby('id','desc')->get();
+    // $users   = User::orderby('id')->get();
+    if (request()->has('id')) {
+        if (is_numeric(request('id'))) {
+            $users = User::
+                where('id', request('id'))
+                ->delete();
+            return back()->with('success', 'User has been deleted successfully');
+        } else {
+            return back();
         }
+
+    }else{
+      $users   = User::orderby('id','desc')->get();
+    }
     return view('admin.users', compact('users'));
   }
 

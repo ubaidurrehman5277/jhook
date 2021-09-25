@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class LoginUser extends Model
+class Sale extends Model
 {
     use HasFactory;
-    public $table = "users";
 }

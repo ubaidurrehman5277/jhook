@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +15,6 @@ use App\Http\Controllers\AdminController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/invoice', function () {
     return view('invoice');
@@ -25,17 +23,10 @@ Route::get('/invoice', function () {
 Route::get('/invoice2', function () {
     return view('invoice2');
 });
-
-Route::get('/admin', function () {
-    return view('admin.login');
-});
-Route::match(['get','post'] , '/admin/dashboard' , [AdminController::class, 'dashboard'])->name('dashboard');
-Route::match(['get','post'] , '/admin' , [AdminController::class, 'login'])->middleware('guest:admin')->name('admin');
+Route::match(['get','post'],'/admin',[AdminController::class,'login'])->middleware('guest:admin')->name('admin');
+Route::match(['get','post'],'/',[LoginController::class, 'login'])->middleware('guest:login')->name('login');
 Route::group(['prefix'=>'/admin','middleware'=>['auth:admin']],function(){
-    Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
-    });
-    Route::match(['get','post'],'/admin/dashboard',[AdminController::class,'dashboard'])->name('dashboard');
+    Route::match(['get','post'],'/dashboard',[AdminController::class,'dashboard'])->name('dashboard');
     Route::match(['get','post'],'/add_user',[AdminController::class,'add_user'])->name('add-user');
     Route::match(['get','post'],'/user_list',[AdminController::class,'user_list'])->name('user-list');
     Route::match(['get','post'],'/add_table',[AdminController::class,'add_table'])->name('add-table');
@@ -50,4 +41,13 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth:admin']],function(){
     Auth::guard('admin')->logout();
     return redirect(route('admin'));
   })->name('adminlogout');
+});
+Route::group(['prefix'=>'/','middleware'=>['auth:login']],function(){
+    Route::match(['get','post'],'/sales',[LoginController::class,'sales'])->name('sales');
+    Route::match(['get','post'],'/sales-list',[LoginController::class,'sales_list'])->name('sales-list');
+    Route::match(['get','post'],'/order-status',[LoginController::class,'order_status'])->name('order-status');
+  Route::get('/userlogout' , function(){
+    Auth::guard('login')->logout();
+    return redirect(route('login'));
+  })->name('userlogout');
 });
