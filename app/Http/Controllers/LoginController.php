@@ -62,7 +62,7 @@ class LoginController extends Controller
         $message = ['success','Order has been placed successfully'];
       }
       $mm = $menus->where('id',request('menu'))->first();
-      $price = ($mm) ? $mm->price : 0;
+      $price = request('total_price');
       $as_price = ($mm) ? $mm->asuming_price : 0;
       $name = ($mm) ? $mm->name : "";
       $qty = request('qty');

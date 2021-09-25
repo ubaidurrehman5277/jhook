@@ -14,7 +14,7 @@
 		$total_price = $data->total_price;
 		$order_detail = json_decode($data->order_detail , true);
 	}
-	$_orderId = ($data) ? $data->id : "";
+	$_orderId = (!empty($data)) ? $data->id : "";
 @endphp
 <div class="row">
 	<div class="col-md-12">
@@ -59,14 +59,14 @@
 						</div>
 						<div class="col-md-12 form-group">
 							<label for="">Select Menu</label>
-							<select name="menu" class="form-control">
+							<select name="menu" class="form-control menu">
 								<option value="">Choose an Option</option>
 								@forelse($menus as $value)
 									@php
 										$m = $all_menus->where('id',$value->main_menu)->first();
 										$m_name = ($m) ? $value->name." - ".$m->name : $value->name;
 									@endphp
-									<option value="{{ $value->id }}" date-price = "{{ $value->price }}" data-asprice="{{ $value->asuming_price }}">{{ $m_name }}</option>
+									<option value="{{ $value->id }}" data-price = "{{ $value->price }}" data-asprice="{{ $value->asuming_price }}">{{ $m_name }}</option>
 								@empty
 								@endforelse
 							</select>
@@ -76,22 +76,25 @@
 						</div>
 						<div class="col-md-6 form-group">
 							<label for="">Total Item/Kg</label>
-							<input type="number" class="form-control" name="qty" value="0">
+							<input type="number" class="form-control qty" name="qty" value="0">
 							@error('qty')
 								<span class="text-danger">{!! $message !!}</span>
 							@enderror
 						</div>
 						<div class="col-md-6 form-group">
 							<label for="">Total Price</label>
-							<input type="text" class="form-control" name="total_price" value="1" readonly>
+							<input type="text" class="form-control total_price" name="total_price" value="0" readonly>
 							<input type="hidden" name="assuming_price" class="as_price" value="0" readonly>
 							@error('total_price')
 								<span class="text-danger">{!! $message !!}</span>
 							@enderror
 						</div>
+					@if(!empty($data) and $data->status == 'paid')
+					@else
 						<div class="col-md-12">
 							<button class="btn btn-primary float-right">Place Order</button>
 						</div>
+					@endif
 					</div>
 				</form>
 			</div>
@@ -110,13 +113,13 @@
 						@php $tt = $tt + $value['price']; @endphp
 						<tr>
 							<td>{{ $value['name']." x ".$value['qty'] }}</td>
-							<td>{{ $value['price'] }}</td>
+							<td>{{ number_format($value['price']) }}</td>
 						</tr>
 					@empty
 					@endforelse
 					<tr>
 						<th>Total :</th>
-						<td>{{ $tt }}</td>
+						<td>{{ number_format($tt) }}</td>
 					</tr>
 					@if(!empty($data) and $data->status == 'pending')
 						<tr>
@@ -139,4 +142,21 @@
 		</div>
 	</div>
 </div>
+<script>
+	$(document).ready(function(){
+		$('input[name="qty"]').on('keyup , change',function(){
+			var qty = $(this).val();
+			var price = $('.menu').find('option:selected').attr('data-price');
+			console.log(price);
+			var total = parseInt(price) * parseInt(qty);
+			$('.total_price').val(total);
+		})
+		$('.menu').on('change',function(){
+			var qty = $('.qty').val();
+			var price = $('.menu').find('option:selected').attr('data-price');	
+			var total = parseInt(price) * parseInt(qty);
+			$('.total_price').val(total);	
+		})
+	})
+</script>
 @include('user.footer')
