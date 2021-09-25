@@ -1,172 +1,132 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title></title>
-	<style>
-		#invoice-POS{
-  box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
-  padding:2mm;
-  margin: 0 auto;
-  width: 44mm;
-  background: #FFF;}  
-  
+<style>
+		#total-print{
+box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
+padding:2mm;
+margin: 0 auto;
+width: 44mm;
+background: #FFF;}
+
 ::selection {background: #f31544; color: #FFF;}
 ::moz-selection {background: #f31544; color: #FFF;}
 h1{
-  font-size: 1.5em;
-  color: #222;
+font-size: 1.5em;
+color: #222;
 }
 h2{font-size: .9em;}
 h3{
-  font-size: 1.2em;
-  font-weight: 300;
-  line-height: 2em;
+font-size: 1.2em;
+font-weight: 300;
+line-height: 2em;
 }
 p{
-  font-size: .7em;
-  color: #666;
-  line-height: 1.2em;
+font-size: .7em;
+color: #666;
+line-height: 1.2em;
 }
- 
+
 #top, #mid,#bot{ /* Targets all id with 'col-' */
-  border-bottom: 1px solid #EEE;
+border-bottom: 1px solid #EEE;
 }
-
 #top{min-height: 100px;}
-#mid{min-height: 80px;} 
+#mid{min-height: 80px;}
 #bot{ min-height: 50px;}
-
 #top .logo{
-  //float: left;
+//float: left;
 	height: 60px;
 	width: 60px;
 	background: url(http://michaeltruong.ca/images/logo1.png) no-repeat;
 	background-size: 60px 60px;
 }
 .clientlogo{
-  float: left;
+float: left;
 	height: 60px;
 	width: 60px;
 	background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;
 	background-size: 60px 60px;
-  border-radius: 50px;
+border-radius: 50px;
 }
 .info{
-  display: block;
-  //float:left;
-  margin-left: 0;
+display: block;
+//float:left;
+margin-left: 0;
 }
 .title{
-  float: right;
+float: right;
 }
-.title p{text-align: right;} 
+.title p{text-align: right;}
 table{
-  width: 100%;
-  border-collapse: collapse;
-}
-td{
-  //padding: 5px 0 5px 15px;
-  //border: 1px solid #EEE
+width: 100%;
+border-collapse: collapse;
 }
 .tabletitle{
-  //padding: 5px;
-  font-size: .5em;
-  background: #EEE;
+background: #EEE;
 }
 .service{border-bottom: 1px solid #EEE;}
 .item{width: 24mm;}
 .itemtext{font-size: .5em;}
-
 #legalcopy{
-  margin-top: 5mm;
+margin-top: 5mm;
 }
+</style>
+<div id="total-print" style="display: none;">
+	<center id="top">
+		<div class="logo"></div>
+		<div class="info">
+			<h1>Jhook Restaurant</h1>
+		</div><!--End Info-->
+	</center><!--End InvoiceTop-->
+		
+	<div id="mid">
+		<div class="info">
+			<h2>Contact Info</h2>
+			<p style="margin-left: 10px;">
+				Address : Model Town A, Bahawalpur</br>
+				Email   : admin@futechsol.com</br>
+				Phone   : 0303-1234566</br>
+			</p>
+		</div>
+	</div><!--End Invoice Mid-->
+		
+	<div id="bot">
+		<div id="table">
+			<table style="width: 100%; font-size: 16px;">
+				<tr class="tabletitle">
+					<th class="item" style="font-size:18px;">Name</th>
+					<th class="Hours" style="font-size:18px;">Item/Kg</th>
+					<th class="Rate" style="font-size:18px;">Sub Total</th>
+				</tr>
+				@php $tt = 0; @endphp
+				@forelse($session_value as $value)
+					@php $tt = $tt + $value['price']; @endphp
+					<tr class="service">
+						<td class="tableitem"><p class="itemtext">{{ $value['name'] }}</p></td>
+						<td class="tableitem"><p class="itemtext">{{ $value['qty'] }}</p></td>
+						<td class="tableitem"><p class="itemtext">{{ number_format($value['price']) }}</p></td>
+					</tr>
+				@empty
+				@endforelse
+				<tr class="tabletitle">
+					<td></td>
+					<td class="Rate"><h2>Total</h2></td>
+					<td class="payment"><h2>{{ number_format($tt) }}</h2></td>
+				</tr>
+			</table>
+		</div><!--End Table-->
+		<div id="legalcopy">
+			<p class="legal" style="font-size: 18px;text-align: center;"><strong>Thank you for your business!</strong></p>
+			<p class="legal" style="font-family: cursive; text-align: center;margin-bottom: 5px;">Powered By:<strong>Future Technology Solution</strong></p>
+		</div>
+	</div><!--End InvoiceBot-->
+</div><!--End Invoice-->
 
-	</style>
-</head>
-<body>
-	<div id="invoice-POS">
-    
-    <center id="top">
-      <div class="logo"></div>
-      <div class="info"> 
-        <h2>SBISTechs Inc</h2>
-      </div><!--End Info-->
-    </center><!--End InvoiceTop-->
-    
-    <div id="mid">
-      <div class="info">
-        <h2>Contact Info</h2>
-        <p> 
-            Address : street city, state 0000</br>
-            Email   : JohnDoe@gmail.com</br>
-            Phone   : 555-555-5555</br>
-        </p>
-      </div>
-    </div><!--End Invoice Mid-->
-    
-    <div id="bot">
-
-					<div id="table">
-						<table>
-							<tr class="tabletitle">
-								<td class="item"><h2>Item</h2></td>
-								<td class="Hours"><h2>Qty</h2></td>
-								<td class="Rate"><h2>Sub Total</h2></td>
-							</tr>
-
-							<tr class="service">
-								<td class="tableitem"><p class="itemtext">Communication</p></td>
-								<td class="tableitem"><p class="itemtext">5</p></td>
-								<td class="tableitem"><p class="itemtext">$375.00</p></td>
-							</tr>
-
-							<tr class="service">
-								<td class="tableitem"><p class="itemtext">Asset Gathering</p></td>
-								<td class="tableitem"><p class="itemtext">3</p></td>
-								<td class="tableitem"><p class="itemtext">$225.00</p></td>
-							</tr>
-
-							<tr class="service">
-								<td class="tableitem"><p class="itemtext">Design Development</p></td>
-								<td class="tableitem"><p class="itemtext">5</p></td>
-								<td class="tableitem"><p class="itemtext">$375.00</p></td>
-							</tr>
-
-							<tr class="service">
-								<td class="tableitem"><p class="itemtext">Animation</p></td>
-								<td class="tableitem"><p class="itemtext">20</p></td>
-								<td class="tableitem"><p class="itemtext">$1500.00</p></td>
-							</tr>
-
-							<tr class="service">
-								<td class="tableitem"><p class="itemtext">Animation Revisions</p></td>
-								<td class="tableitem"><p class="itemtext">10</p></td>
-								<td class="tableitem"><p class="itemtext">$750.00</p></td>
-							</tr>
-
-
-							<tr class="tabletitle">
-								<td></td>
-								<td class="Rate"><h2>tax</h2></td>
-								<td class="payment"><h2>$419.25</h2></td>
-							</tr>
-
-							<tr class="tabletitle">
-								<td></td>
-								<td class="Rate"><h2>Total</h2></td>
-								<td class="payment"><h2>$3,644.25</h2></td>
-							</tr>
-
-						</table>
-					</div><!--End Table-->
-
-					<div id="legalcopy">
-						<p class="legal"><strong>Thank you for your business!</strong>  Payment is expected within 31 days; please process this invoice within that time. There will be a 5% interest charge per month on late invoices. 
-						</p>
-					</div>
-
-				</div><!--End InvoiceBot-->
-  </div><!--End Invoice-->
-</body>
-</html>
+<script>
+  $(document).ready(function(){
+    $('#total-print').css('display','block');
+    printJS({
+      printable: 'total-print',
+      type: 'html',
+      style: '@page { size: portrait; }',
+    })
+    $('#total-print').css('display','none');
+  })
+</script>

@@ -142,6 +142,16 @@
 		</div>
 	</div>
 </div>
+
+@if(session()->has('paid'))
+	@php
+		$session_value = session()->get('paid');
+		session()->forget('paid');
+	@endphp
+	@include('invoice2' , compact('session_value'));
+    <script src="{{ asset('assets/js/print.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('assets/js/print.min.css') }}">
+@endif
 <script>
 	$(document).ready(function(){
 		$('input[name="qty"]').on('keyup , change',function(){

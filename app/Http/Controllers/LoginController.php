@@ -104,6 +104,8 @@ class LoginController extends Controller
       if ($order) {
         $order->status = 'paid';
         $order->save();
+        $order_detail = json_decode($order->order_detail,true);
+        session(['paid'=>$order_detail]);
         return back()->with('success','Order has been paid successfully');
       }else{
         return abort('404');
