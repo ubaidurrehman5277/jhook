@@ -1,14 +1,16 @@
 @include('admin.layouts.header')
 @php
-	$menu_name = $price = $_menu = "";
+	$menu_name = $price = $_menu = $assuming_price = "";
 	if(!empty(old())){
 		$menu_name = old('menu_name');
 		$price = old('price');
 		$_menu = old('_menu');
+		$assuming_price = old('assuming_price');
 	}else if(isset($data) and !empty($data)){
 		$menu_name = $data->name;
 		$price = $data->price;
 		$_menu = $data->main_menu;
+		$assuming_price = $data->asuming_price;
 	}
 @endphp
 <div class="row">
@@ -51,7 +53,7 @@
 						</div>
 						<div class="col-md-12 form-group">
 							<label for="">Assuming Price</label>
-							<input type="text" name="assuming_price" class="form-control assuming_price" value="{{-- {{ $assuming_price }} --}}">
+							<input type="text" name="assuming_price" class="form-control assuming_price" value="{{ $assuming_price }}">
 							@error('assuming_price') <div class="text-danger">{!! $message !!}</div> @enderror
 						</div>
 						<div class="col-md-12 form-group">

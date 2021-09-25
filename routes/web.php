@@ -42,8 +42,10 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth:admin']],function(){
     return redirect(route('admin'));
   })->name('adminlogout');
 });
-Route::group(['prefix'=>'/','middleware'=>['auth:user']],function(){
+Route::group(['prefix'=>'/','middleware'=>['auth:login']],function(){
     Route::match(['get','post'],'/sales',[LoginController::class,'sales'])->name('sales');
+    Route::match(['get','post'],'/sales-list',[LoginController::class,'sales_list'])->name('sales-list');
+    Route::match(['get','post'],'/order-status',[LoginController::class,'order_status'])->name('order-status');
   Route::get('/userlogout' , function(){
     Auth::guard('login')->logout();
     return redirect(route('login'));

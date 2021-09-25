@@ -53,7 +53,7 @@
                             <div class="drop-down dropdown-profile dropdown-menu">
                                 <div class="dropdown-content-body">
                                     <ul>
-                                        <li><a href="{{-- {{ route('logout') }} --}}"><i class="icon-key"></i> <span>Logout</span></a></li>
+                                        <li><a href="{{ route('adminlogout') }}"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
                             </div>
