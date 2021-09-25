@@ -14,7 +14,7 @@
 		$total_price = $data->total_price;
 		$order_detail = json_decode($data->order_detail , true);
 	}
-	$_orderId = ($data) ? $data->id : "";
+	$_orderId = (!empty($data)) ? $data->id : "";
 @endphp
 <div class="row">
 	<div class="col-md-12">

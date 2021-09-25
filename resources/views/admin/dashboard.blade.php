@@ -71,7 +71,20 @@
                 <div class="card-body">
                     <h3 class="card-title text-white">Pending Orders</h3>
                     <div class="d-inline-block">
-                        <h2 class="text-white">{{-- {{ $tproduct }} --}} 5</h2>
+                        <h2 class="text-white">{{ $tpending }}</h2>
+                        <p class="text-white mb-0">{{ date('d M Y') }}</p>
+                    </div>
+                    <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-12">
+            <div class="card gradient-9">
+                <div class="card-body">
+                    <h3 class="card-title text-white">Today Net Sale</h3>
+                    <div class="d-inline-block">
+                        <h2 class="text-white">{{ $tsale }}</h2>
                         <p class="text-white mb-0">{{ date('d M Y') }}</p>
                     </div>
                     <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
