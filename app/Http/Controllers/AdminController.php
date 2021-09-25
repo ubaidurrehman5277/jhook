@@ -26,7 +26,12 @@ class AdminController extends Controller
   }
 
   function dashboard(Request $req){
-    return view('admin.dashboard');
+    $tuser    = User::count();
+    $ttable   = table::count();
+    $tmenu    = Menu::whereNull('main_menu')->count();
+    $tsmenu    = Menu::whereNotNull('main_menu')->count();
+    $tproduct = Product::count();
+    return view('admin.dashboard',compact('tuser','ttable','tmenu','tsmenu','tproduct'));
   }
 
   function add_user(Request $req){
