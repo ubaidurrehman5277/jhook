@@ -78,9 +78,9 @@
                         </a>
                         <ul aria-expanded="false">
                             <li>
-                                <a href="{{ route('add-user') }}" class="{{ (Request::segment(1) == 'add-user') ? "active" : "" }}">Add User</a>
+                                <a href="{{ route('add-user') }}" class="{{ (Request::segment(2) == 'add-user') ? "active" : "" }}">Add User</a>
                             </li>
-                            <li><a href="{{ route('user-list') }}" class="{{ (Request::segment(1) == 'user-list') ? "active" : "" }}">User List</a></li>
+                            <li><a href="{{ route('user-list') }}" class="{{ (Request::segment(2) == 'user-list') ? "active" : "" }}">User List</a></li>
                         </ul>
                     </li>
                     <li class="nav-label">Menus</li>
@@ -90,7 +90,7 @@
                         </a>
                         <ul aria-expanded="false">
                             <li>
-                                <a href="{{ route('add-menu') }}" class="{{ (Request::segment(1) == 'add-menu') ? "active" : "" }}">Add New Menu</a>
+                                <a href="{{ route('add-menu') }}" class="{{ (Request::segment(2) == 'add-menu') ? "active" : "" }}">Add New Menu</a>
                             </li>
                             
                         </ul>
@@ -102,7 +102,7 @@
                         </a>
                         <ul aria-expanded="false">
                             <li>
-                                <a href="{{ route('add-table') }}" class="{{ (Request::segment(1) == 'add-table') ? "active" : "" }}">Add New Table</a>
+                                <a href="{{ route('add-table') }}" class="{{ (Request::segment(2) == 'add-table') ? "active" : "" }}">Add New Table</a>
                             </li>
                             <li><a href="{{ route('tables') }}">Table List</a></li>
                         </ul>
@@ -115,7 +115,7 @@
                         </a>
                         <ul aria-expanded="false">
                             <li>
-                                <a href="{{ route('add-product') }}" class="{{ (Request::segment(1) == 'add-product') ? "active" : "" }}">Add New Product</a>
+                                <a href="{{ route('add-product') }}" class="{{ (Request::segment(2) == 'add-product') ? "active" : "" }}">Add New Product</a>
                             </li>
                             <li><a href="{{ route('product-list') }}">Product List</a></li>
                         </ul>

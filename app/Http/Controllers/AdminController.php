@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\table;
 use App\Models\Product;
 use App\Models\Menu;
+use App\Models\Sale;
 
 class AdminController extends Controller
 {
@@ -26,7 +27,15 @@ class AdminController extends Controller
   }
 
   function dashboard(Request $req){
-    return view('admin.dashboard');
+    $tuser    = User::count();
+    $ttable   = table::count();
+    $tmenu    = Menu::whereNull('main_menu')->count();
+    $tsmenu    = Menu::whereNotNull('main_menu')->count();
+    $tproduct = Product::count();
+    $tpending    = Sale::where('status','pending')->count();
+    // $tsale    = Sale::where('date','date("d M Y")')->count();
+    $tsale = Sale::where(['date'=>date("Y-m-d"),'status'=>'paid'])->sum('total_price');
+    return view('admin.dashboard',compact('tuser','ttable','tmenu','tsmenu','tproduct','tpending','tsale'));
   }
 
   function add_user(Request $req){
