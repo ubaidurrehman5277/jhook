@@ -28,6 +28,19 @@
         </div>
 
         <div class="col-lg-4 col-sm-12">
+            <div class="card gradient-5">
+                <div class="card-body">
+                    <h3 class="card-title text-white">Total Products</h3>
+                    <div class="d-inline-block">
+                        <h2 class="text-white">{{ $tproduct }}</h2>
+                        <p class="text-white mb-0">{{ date('d M Y') }}</p>
+                    </div>
+                    <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-sm-12">
             <div class="card gradient-3">
                 <div class="card-body">
                     <h3 class="card-title text-white">Total Menus</h3>
@@ -46,19 +59,6 @@
                     <h3 class="card-title text-white">Total Sub Menus</h3>
                     <div class="d-inline-block">
                         <h2 class="text-white">{{ $tsmenu }}</h2>
-                        <p class="text-white mb-0">{{ date('d M Y') }}</p>
-                    </div>
-                    <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-4 col-sm-12">
-            <div class="card gradient-5">
-                <div class="card-body">
-                    <h3 class="card-title text-white">Total Products</h3>
-                    <div class="d-inline-block">
-                        <h2 class="text-white">{{ $tproduct }}</h2>
                         <p class="text-white mb-0">{{ date('d M Y') }}</p>
                     </div>
                     <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
