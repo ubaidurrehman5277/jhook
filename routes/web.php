@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SuperAdminController;
+use App\Http\Controllers\ShopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +29,7 @@ Route::match(['get','post'],'/admin',[AdminController::class,'login'])->middlewa
 Route::match(['get','post'],'/',[LoginController::class, 'login'])->middleware('guest:login')->name('login');
 Route::group(['prefix'=>'/admin','middleware'=>['auth:admin']],function(){
     Route::match(['get','post'],'/dashboard',[AdminController::class,'dashboard'])->name('dashboard');
+    Route::match(['get','post'],'/super-dashboard',[SuperAdminController::class,'dashboard'])->name('super-dashboard');
     Route::match(['get','post'],'/add_user',[AdminController::class,'add_user'])->name('add-user');
     Route::match(['get','post'],'/user_list',[AdminController::class,'user_list'])->name('user-list');
     Route::match(['get','post'],'/add_table',[AdminController::class,'add_table'])->name('add-table');
@@ -36,7 +39,8 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth:admin']],function(){
     Route::match(['get','post'],'/add_menu',[AdminController::class,'add_menu'])->name('add-menu');
     Route::match(['get','post'],'/dealers',[customerController::class,'dealers'])->name('dealers');
   Route::match(['get','post'],'/add-expense' , [ExpenseController::class , 'add_expense'])->name('add-expense');
-  Route::match(['get','post'],'/expenses' , [ExpenseController::class , 'expenses'])->name('expenses');
+  Route::match(['get','post'],'/net-sale' , [AdminController::class , 'net_sale'])->name('net-sale');
+  Route::match(['get','post'],'/profit-loss' , [AdminController::class , 'profit_loss'])->name('profit-loss');
   Route::get('/adminlogout' , function(){
     Auth::guard('admin')->logout();
     return redirect(route('admin'));
@@ -44,6 +48,7 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth:admin']],function(){
 });
 Route::group(['prefix'=>'/','middleware'=>['auth:login']],function(){
     Route::match(['get','post'],'/sales',[LoginController::class,'sales'])->name('sales');
+    Route::match(['get','post'],'/shop-sale',[LoginController::class,'shop'])->name('shop-sale');
     Route::match(['get','post'],'/sales-list',[LoginController::class,'sales_list'])->name('sales-list');
     Route::match(['get','post'],'/order-status',[LoginController::class,'order_status'])->name('order-status');
   Route::get('/userlogout' , function(){

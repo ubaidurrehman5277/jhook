@@ -15,25 +15,6 @@
 </head>
 
 <body class="h-100">
-    
-    <!--*******************
-        Preloader start
-    ********************-->
-    {{-- <div id="preloader">
-        <div class="loader">
-            <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
-            </svg>
-        </div>
-    </div> --}}
-    <!--*******************
-        Preloader end
-    ********************-->
-
-    
-
-
-
     <div class="login-form-bg h-100">
         <div class="container h-100">
             <div class="row justify-content-center h-100">
@@ -53,7 +34,7 @@
                                 <form class="mt-5 mb-5 login-input" action="" method="post">
                                     @csrf
                                     <div class="form-group">
-                                        <input type="email" name="email" class="form-control" placeholder="Email">
+                                        <input type="text" name="email" class="form-control" placeholder="Email">
                                     </div>
                                     <div class="form-group">
                                         <input type="password" name="password" class="form-control" placeholder="Password">

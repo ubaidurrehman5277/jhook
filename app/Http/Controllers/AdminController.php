@@ -9,6 +9,8 @@ use App\Models\table;
 use App\Models\Product;
 use App\Models\Menu;
 use App\Models\Sale;
+use DB;
+use Response;
 
 class AdminController extends Controller
 {
@@ -18,7 +20,11 @@ class AdminController extends Controller
       $username = request('email');
       $password = request('password');
       if (Auth::guard('admin')->attempt(['email' => $username, 'password' => $password])) {
-        return redirect(route('dashboard'));
+        if (auth('admin')->user()->type == 'superadmin') {
+            return redirect(route('super-dashboard'));
+        }else{
+            return redirect(route('dashboard'));
+        }
       }else{
         return back()->with('error','Invalid Attempts');
       }
@@ -27,6 +33,9 @@ class AdminController extends Controller
   }
 
   function dashboard(Request $req){
+    if (auth('admin')->user()->type == 'superadmin') {
+        return redirect(route('super-dashboard'));
+    }
     $tuser    = User::count();
     $ttable   = table::count();
     $tmenu    = Menu::whereNull('main_menu')->count();
@@ -55,6 +64,7 @@ class AdminController extends Controller
           $message = ['success' => 'User Added successfully'];
         }   
         $add_user->email       = $req->email; 
+        $add_user->type       = $req->type; 
         $add_user->password             = bcrypt($req->password);
         $add_user->save();
         return back()->with($message);
@@ -88,7 +98,6 @@ class AdminController extends Controller
             request()->validate([
                 'table_no'       => 'required',
                 'capacity'          => 'required',
-                
             ]);
             
             if (request()->has('id')) {
@@ -131,7 +140,6 @@ class AdminController extends Controller
             request()->validate([
                 'product_name'       => 'required',
                 'quantity'          => 'required',
-                
             ]);
             if (request()->has('id')) {
             $add_product = Product::find(request('id'));
@@ -191,6 +199,61 @@ class AdminController extends Controller
         return view('admin.add-menu', compact('menus','items','data'));
     }
     return view('admin.add-menu',  compact('menus','items'));
+  }
+
+  function net_sale()
+  {
+    if (request()->has('pdf') and request('pdf') == 'true') {
+        $query = "Select * from sales where status = 'paid' ";
+        if (request()->has('date_from')) {
+            // $date_from = implode('-',array_reverse(explode('/',request('date_from'))));
+            $query .= " AND date >= '".request('date_from')."'";
+        }
+        if (request()->has('date_to')) {
+            // $date_to = implode('-',array_reverse(explode('/',request('date_to'))));
+            $query .= " AND date <= '".request('date_to')."'";
+        }
+        $record = DB::select($query);
+        $file = 'Net Sale Report .pdf';
+        pdf_generate($this->view_netsale_pdf($record),$file,true,false,'legal');
+        $fileurl = "images/".$file;
+        return Response::download($fileurl, $file, array('Content-Type: application/octet-stream','Content-Length: '. filesize($fileurl)))->deleteFileAfterSend(true);
+    }else{
+      return abort(404);
+    }
+  }
+  function view_netsale_pdf($record)
+  {
+    $menus = Menu::all();
+    return view('reports.netsale_report' , compact('record','menus'));
+  }
+
+  function profit_loss()
+  {
+    if (request()->has('pdf') and request('pdf') == 'true') {
+        $query = "Select * from sales where status = 'paid' ";
+        if (request()->has('date_from')) {
+            // $date_from = implode('-',array_reverse(explode('/',request('date_from'))));
+            $query .= " AND date >= '".request('date_from')."'";
+        }
+        if (request()->has('date_to')) {
+            // $date_to = implode('-',array_reverse(explode('/',request('date_to'))));
+            $query .= " AND date <= '".request('date_to')."'";
+        }
+        // dd($query);
+        $record = DB::select($query);
+        $file = 'Profit Loss Report .pdf';
+        pdf_generate($this->view_profitloss_pdf($record),$file,true,false,'legal');
+        $fileurl = "images/".$file;
+        return Response::download($fileurl, $file, array('Content-Type: application/octet-stream','Content-Length: '. filesize($fileurl)))->deleteFileAfterSend(true);
+    }else{
+      return abort(404);
+    }
+  }
+  function view_profitloss_pdf($record)
+  {
+    $menus = Menu::all();
+    return view('reports.profit_loss' , compact('record','menus'));
   }
 
 }
