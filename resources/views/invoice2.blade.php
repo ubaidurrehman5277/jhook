@@ -114,7 +114,7 @@ margin-top: 5mm;
 		</div><!--End Table-->
 		<div id="legalcopy">
 			<p class="legal" style="font-size: 18px;text-align: center;"><strong>Thank you for your business!</strong></p>
-			<p class="legal" style="font-family: cursive; text-align: center;margin-bottom: 5px;">Powered By:<strong>Future Technology Solution</strong></p>
+			<p class="legal" style="font-family: cursive; text-align: center;margin-bottom: 5px;">Powered By:<strong> Future Technology Solution</strong></p>
 		</div>
 	</div><!--End InvoiceBot-->
 </div><!--End Invoice-->

@@ -18,7 +18,11 @@ class LoginController extends Controller
       $username = request('email');
       $password = request('password');
       if (Auth::guard('login')->attempt(['email' => $username, 'password' => $password])) {
-        return redirect(route('sales'));
+        if (auth('login')->user()->type == 'cashier') {
+          return redirect(route('sales'));
+        }else{
+          return redirect(route('shop-sale'));
+        }
       }else{
         return back()->with('error','Invalid Attempts');
       }
@@ -27,6 +31,10 @@ class LoginController extends Controller
   }
   function sales(Request $request)
   {
+    // dd(auth('login')->user()->type);
+    if (auth('login')->user()->type == 'shop') {
+      return redirect(route('shop-sale'));
+    }
     $all_menus = Menu::all();
     $menus = Menu::whereNotNull('main_menu')->orderby('id','desc')->get();
     $tables = table::orderby('id','desc')->get();
@@ -47,6 +55,9 @@ class LoginController extends Controller
       if (request()->has('orderId') and is_numeric(request('orderId'))) {
         $order = Sale::find(request('orderId'));
         $old_detail = json_decode($order->order_detail,true);
+        $old_qty = $order->qty;
+        $old_price = $order->total_price;
+        $old_asprice = $order->ass_price;
         $message = ['success','Order has been updated successfully'];
       }else{
         request()->validate([
@@ -61,12 +72,14 @@ class LoginController extends Controller
         $order->table_no = request('table');
         $message = ['success','Order has been placed successfully'];
       }
+      $qty = request('qty');
       $mm = $menus->where('id',request('menu'))->first();
       $price = request('total_price');
-      $as_price = ($mm) ? $mm->asuming_price : 0;
+      $as_price = (!empty($old_asprice)) ? $old_asprice + ($mm->asuming_price * request('qty')) : $mm->asuming_price * request('qty');
       $name = ($mm) ? $mm->name : "";
-      $qty = request('qty');
-      $new_detail = ['name' => $name,'qty' => request('qty'),'price' => $price*$qty];
+      $qty = (!empty($old_qty)) ? $old_qty + $qty : $qty;
+      $new_detail = ['name' => $name,'qty' => request('qty'),'price' => $price];
+      $price = (!empty($old_price)) ? $old_price + $price : $price;
       if ($old_detail) {
         $old_detail[] = $new_detail;
         $order_detail = $old_detail;
@@ -76,16 +89,20 @@ class LoginController extends Controller
       $order->cat_id = request('menu');
       $order->total_price = $price;
       $order->ass_price = $as_price;
-      $order->qty = request('qty');
+      $order->qty = $qty;
       $order->order_detail = json_encode($order_detail);
       $order->save();
       return redirect(route('sales')."?orderId=".$order->id)->with($message);
     }else if(request()->has('orderId') and is_numeric(request('orderId')))
     {
       $data = Sale::find(request('orderId'));
-      $order_detail = json_decode($data->order_detail , true);
-      // dd($order_detail);
-      return view('user.sales',compact('menus','tables','all_menus','data'));
+      if($data){
+        $order_detail = json_decode($data->order_detail , true);
+        // dd($order_detail);
+        return view('user.sales',compact('menus','tables','all_menus','data'));
+      }else{
+        return abort(404);
+      }
     }
     return view('user.sales',compact('menus','tables','all_menus'));
   }
@@ -95,6 +112,11 @@ class LoginController extends Controller
     $record = Sale::orderby('id','desc')->get();
     $all_menus = Menu::all();
     return view('user.sales-list', compact('record','all_menus'));
+  }
+
+  function shop(Request $request)
+  {
+    return view('shop.sales');
   }
 
   function order_status()
