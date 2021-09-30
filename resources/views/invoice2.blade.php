@@ -72,7 +72,7 @@ margin-top: 5mm;
 	<center id="top">
 		<div class="logo"></div>
 		<div class="info">
-			<h1>Jhook Restaurant</h1>
+			<h1>Jhok Restaurant</h1>
 		</div><!--End Info-->
 	</center><!--End InvoiceTop-->
 		
@@ -80,9 +80,8 @@ margin-top: 5mm;
 		<div class="info">
 			<h2>Contact Info</h2>
 			<p style="margin-left: 10px;">
-				Address : Model Town A, Bahawalpur</br>
-				Email   : admin@futechsol.com</br>
-				Phone   : 0303-1234566</br>
+				Address : Main Indus Highway, Rajanpur City</br>
+				Phone   : 0332-1751930</br>
 			</p>
 		</div>
 	</div><!--End Invoice Mid-->
@@ -114,7 +113,7 @@ margin-top: 5mm;
 		</div><!--End Table-->
 		<div id="legalcopy">
 			<p class="legal" style="font-size: 18px;text-align: center;"><strong>Thank you for your business!</strong></p>
-			<p class="legal" style="font-family: cursive; text-align: center;margin-bottom: 5px;">Powered By:<strong> Future Technology Solution</strong></p>
+			<p class="legal" style="font-family: cursive; text-align: center;margin-bottom: 5px;">Powered By:<strong> Future Technology Solution : 0300-5525909</strong></p>
 		</div>
 	</div><!--End InvoiceBot-->
 </div><!--End Invoice-->

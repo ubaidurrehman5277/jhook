@@ -17,7 +17,7 @@
 	<div class="col-md-12">
 		<div class="card border-info">
 			<div class="card-header bg-info">
-				<h3 class="text-white">Add Expense</h3>
+				<h3 class="text-white">Add Table</h3>
 			</div>
 			<div class="card-body">
 				<form action="" method="post">

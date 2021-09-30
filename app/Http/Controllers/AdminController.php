@@ -220,7 +220,7 @@ class AdminController extends Controller
         $record = DB::select($query);
         $file = 'Net Sale Report .pdf';
         pdf_generate($this->view_netsale_pdf($record),$file,true,false,'legal');
-        $fileurl = "images/".$file;
+        $fileurl = public_path()."/images/".$file;
         return Response::download($fileurl, $file, array('Content-Type: application/octet-stream','Content-Length: '. filesize($fileurl)))->deleteFileAfterSend(true);
     }else{
       return abort(404);
@@ -248,7 +248,7 @@ class AdminController extends Controller
         $record = DB::select($query);
         $file = 'Profit Loss Report .pdf';
         pdf_generate($this->view_profitloss_pdf($record),$file,true,false,'legal');
-        $fileurl = "images/".$file;
+        $fileurl = public_path()."/images/".$file;
         return Response::download($fileurl, $file, array('Content-Type: application/octet-stream','Content-Length: '. filesize($fileurl)))->deleteFileAfterSend(true);
     }else{
       return abort(404);

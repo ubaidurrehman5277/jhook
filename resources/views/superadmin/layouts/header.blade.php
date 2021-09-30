@@ -83,10 +83,10 @@
                             
                         </ul>
                     </li>
-                    <li class="nav-label">Shops</li>
+                    <li class="nav-label">Kitchen</li>
                     <li class="">
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-menu menu-icon"></i> <span class="nav-text">Shops</span>
+                            <i class="icon-menu menu-icon"></i> <span class="nav-text">Gradients</span>
                         </a>
                         <ul aria-expanded="false">
                             <li>

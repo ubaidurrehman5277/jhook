@@ -1,4 +1,8 @@
-@include('admin.layouts.header')
+@if(auth('admin')->user()->type == 'superadmin')
+	@include('superadmin.layouts.header')
+@else
+	@include('admin.layouts.header')
+@endif
 @php
 	$menu_name = $price = $_menu = $assuming_price = "";
 	if(!empty(old())){
@@ -124,4 +128,8 @@
 	</div>
 
 </div>
-@include('admin.layouts.footer')
+@if(auth('admin')->user()->type == 'superadmin')
+	@include('superadmin.layouts.footer')
+@else
+	@include('admin.layouts.footer')
+@endif

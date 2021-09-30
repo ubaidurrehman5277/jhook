@@ -1,4 +1,8 @@
-@include('superadmin.layouts.header')
+@if(auth('admin')->user()->type == 'superadmin')
+	@include('superadmin.layouts.header')
+@else
+	@include('admin.layouts.header')
+@endif
 <link rel="stylesheet" href="{{ asset('assets/css/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}">
 <style>
 	#DataTables_Table_0_wrapper{padding:0px 0px;}
@@ -7,26 +11,26 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="col-md-12">
-                @if(session()->has("success"))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                      {!! session("success") !!}
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                @endif
-                @if(session()->has("error"))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                      {!! session("error") !!}
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                @endif
+        @if(session()->has("success"))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {!! session("success") !!}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
+        @endif
+        @if(session()->has("error"))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              {!! session("error") !!}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+        @endif
+    </div>
 		<div class="card border-info">
 			<div class="card-header bg-info">
-				<h3 class="text-white">Purchase List</h3>
+				<h3 class="text-white">Gradients List</h3>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
@@ -34,20 +38,22 @@
 						<thead>
 							<tr>
 								<th>#</th>
-								<th>Product Name</th>
-								<th>Product Quantity</th>
+								<th>Name</th>
+								<th>Qty / Kg</th>
+								<th>Price</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							@forelse($products as  $product)
+							@forelse($record as  $product)
 								<tr>
 									<td>{{ $product['id'] }}</td>
-									<td>{{ $product['product_name'] }}</td>
-									<td>{{ $product['quantity'] }}</td>
+									<td>{{ $product['name'] }}</td>
+									<td>{{ $product['kg'] }}</td>
+									<td>{{ number_format($product['price']) }}</td>
 									<td>
-										<a href="{{ route('product-list').'?id='.$product->id }}"><i class="fa fa-trash"></i></a>
-										<a href="{{ route('add-product').'?id='.$product['id'] }}"><i class="fa fa-edit"></i></a>
+										{{-- <a href="{{ route('gradient-list').'?id='.$product->id }}"><i class="fa fa-trash"></i></a> --}}
+										<a href="{{ route('add-gradient').'?id='.$product['id'] }}"><i class="fa fa-edit"></i></a>
 									</td>
 								</tr>
 							@empty
@@ -65,4 +71,8 @@
 <script src="{{ asset('assets/css/plugins/tables/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/css/plugins/tables/js/datatable/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('assets/css/plugins/tables/js/datatable-init/datatable-basic.min.js') }}"></script>
-@include('superadmin.layouts.footer')
+@if(auth('admin')->user()->type == 'superadmin')
+	@include('superadmin.layouts.footer')
+@else
+	@include('admin.layouts.footer')
+@endif
