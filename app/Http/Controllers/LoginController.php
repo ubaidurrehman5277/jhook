@@ -151,8 +151,7 @@ class LoginController extends Controller
       }
       // dd(request()->all());
       // $product = explode(',',$old_product);
-       $data = Product::where('id',request('pname'))->first();
-       $quantity = $data->quantity - $request->qty;
+      $data = Product::where('id',request('pname'))->first();
       $shop_sale->product_name = (!empty($old_product))?implode(',', [$old_product,$request->pname]):$request->pname;
       $shop_sale->quantity = $old_qty + $request->qty;
       $shop_sale->price = $old_price + $request->total_price;
@@ -162,10 +161,16 @@ class LoginController extends Controller
       // $order_d = array_merge($old_order_detail,$array);
       $shop_sale->order_detail  = json_encode($old_order_detail);
       $shop_sale->save();
-
+      $data = Product::where('id',request('pname'))->first();
+    if ($data) {
+      $data->quantity = $data->quantity - $request->qty;
+      // dd($data->quantity);
+      $data->save();
+    }
       // $products = Product::where('id','$shop_sale->product_name')->get();
       return redirect(route('shop-sale')."?orderid=".$shop_sale->id)->with('success','Order has been placed successfully');
   }
+
     return view('shop.sales',compact('products'));
   }
 
