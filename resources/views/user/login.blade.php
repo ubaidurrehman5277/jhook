@@ -19,7 +19,7 @@
             </svg>
         </div>
     </div>
-    <div class="login-form-bg h-100" style="background-color: #9add557a;">
+    <div class="login-form-bg h-100" style="background-image: url('{{ asset('assets/images/rest2.png') }}'); background-position: center;background-repeat: no-repeat; background-size: cover;">
         <div class="container h-100">
             <div class="row justify-content-center h-100">
                 <div class="col-xl-6">
