@@ -138,28 +138,32 @@ class LoginController extends Controller
       if (request()->has('orderid')) {
         $shop_sale = SSale::find(request('orderid'));
         $old_price = $shop_sale->price;
-        $old_qty = $shop_sale->qty;
+        $old_qty = $shop_sale->quantity;
         $old_product = $shop_sale->product_name;
         $old_order_detail = json_decode($shop_sale->order_detail , true);
         // dd($old_order_detail);
       }else{
         $shop_sale = new SSale;
         $old_order_detail = [];
-        // $old_price = "";
-        // $old_qty   = "";
-        $old_product = $request->pname;
+        $old_price = 0;
+        $old_qty   = 0;
+        $old_product = "";
       }
-      // dd($old_product);
-      $product = explode(',',$old_product);
-      $shop_sale->product_name = $product;
-      $shop_sale->quantity = $request->qty;
-      $shop_sale->price = $request->total_price;
+      // dd(request()->all());
+      // $product = explode(',',$old_product);
+       $data = Product::where('id',request('pname'))->first();
+       $quantity = $data->quantity - $request->qty;
+      $shop_sale->product_name = (!empty($old_product))?implode(',', [$old_product,$request->pname]):$request->pname;
+      $shop_sale->quantity = $old_qty + $request->qty;
+      $shop_sale->price = $old_price + $request->total_price;
       $array = ['product_name' => request('pname'),'qty' => request('qty'),'price' => request('total_price')];
       array_push($old_order_detail, $array);
       // dd($old_order_detail);
       // $order_d = array_merge($old_order_detail,$array);
       $shop_sale->order_detail  = json_encode($old_order_detail);
       $shop_sale->save();
+
+      // $products = Product::where('id','$shop_sale->product_name')->get();
       return redirect(route('shop-sale')."?orderid=".$shop_sale->id)->with('success','Order has been placed successfully');
   }
     return view('shop.sales',compact('products'));
