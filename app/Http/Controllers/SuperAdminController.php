@@ -29,4 +29,9 @@ class SuperAdminController extends Controller
     $tsale = Sale::where(['date'=>date("Y-m-d"),'status'=>'paid'])->sum('total_price');
     return view('superadmin.dashboard',compact('tuser','ttable','tmenu','tsmenu','tproduct','tpending','tsale'));
   }
+
+  function add_gradient(Request $request)
+  {
+    
+  }
 }

@@ -1,4 +1,4 @@
-@include('admin.layouts.header')
+@include('superadmin.layouts.header')
 @php
 	$paid_by = $paid_to = $amount = $description = "";
 	if(!empty(old())){
@@ -79,4 +79,4 @@
 		</div>
 	</div>
 </div>
-@include('admin.layouts.footer')
+@include('superadmin.layouts.footer')

@@ -71,20 +71,8 @@
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-label">Users</li>
-                    <li class="{{-- {{ (Request::segment(1) == 'add-invoice' || Request::segment(1) == 'sale-return') ? "active" : "" }} --}}">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-note menu-icon"></i> <span class="nav-text">Users</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li>
-                                <a href="{{ route('add-user') }}" class="{{ (Request::segment(2) == 'add-user') ? "active" : "" }}">Add User</a>
-                            </li>
-                            <li><a href="{{ route('user-list') }}" class="{{ (Request::segment(2) == 'user-list') ? "active" : "" }}">User List</a></li>
-                        </ul>
-                    </li>
                     <li class="nav-label">Menus</li>
-                    <li  class="{{-- {{ (Request::segment(1) == 'add-purchase' || Request::segment(1) == 'purchase-return') ? "active" : "" }} --}}">
+                    <li  class="">
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="icon-grid menu-icon"></i> <span class="nav-text">Menus</span>
                         </a>
@@ -95,29 +83,16 @@
                             
                         </ul>
                     </li>
-                    <li class="nav-label">Tables</li>
-                    <li class="{{-- {{ (Request::segment(1) == 'add-expense') ? "active" : "" }} --}}">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-menu menu-icon"></i> <span class="nav-text">Tables</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li>
-                                <a href="{{ route('add-table') }}" class="{{ (Request::segment(2) == 'add-table') ? "active" : "" }}">Add New Table</a>
-                            </li>
-                            <li><a href="{{ route('tables') }}">Table List</a></li>
-                        </ul>
-                    </li>
-
                     <li class="nav-label">Shops</li>
-                    <li class="{{-- {{ (Request::segment(1) == 'add-expense') ? "active" : "" }} --}}">
+                    <li class="">
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="icon-menu menu-icon"></i> <span class="nav-text">Shops</span>
                         </a>
                         <ul aria-expanded="false">
                             <li>
-                                <a href="{{ route('add-product') }}" class="{{ (Request::segment(2) == 'add-product') ? "active" : "" }}">Add New Product</a>
+                                <a href="{{ route('add-gradient') }}" class="{{ (Request::segment(2) == 'add-gradient') ? "active" : "" }}">Add New Gradient</a>
                             </li>
-                            <li><a href="{{ route('product-list') }}">Product List</a></li>
+                            <li><a href="{{ route('gradient-list') }}">Gradient List</a></li>
                         </ul>
                     </li>
 
@@ -134,12 +109,6 @@
                                 <a href="#" class="m-call" data-href="{{ route('profit-loss') }}" data-title="Profit Loss Report" data-toggle="modal" data-target="#basicModal">Profit/Loss Report</a>
                             </li>
                         </ul>
-                    </li>
-                    <li class="nav-label">Closing</li>
-                    <li>
-                        <a href="#" aria-expanded="false">
-                            <i class="icon-envelope menu-icon"></i><span class="nav-text">Closing</span>
-                        </a>
                     </li>
                 </ul>
             </div>

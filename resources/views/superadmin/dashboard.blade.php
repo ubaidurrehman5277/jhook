@@ -1,4 +1,4 @@
-@include('admin.layouts.header')
+@include('superadmin.layouts.header')
 <div class="container-fluid mt-3">
     <div class="row">
         <div class="col-lg-4 col-sm-12">
@@ -93,4 +93,4 @@
         </div>
     </div>
 </div>
-@include('admin.layouts.footer')
+@include('superadmin.layouts.footer')
