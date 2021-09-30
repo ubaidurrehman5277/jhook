@@ -1,23 +1,23 @@
 @include('superadmin.layouts.header')
-{{-- @php
-	$paid_by = $paid_to = $amount = $description = "";
-	if(!empty(old())){
-		$paid_by = old('paid_by');
-		$paid_to = old('paid_to');
-		$amount = old('amount');
-		$description = old('description');
-	}else if(isset($data) and !empty($data)){
-		$paid_by = $data->paid_by;
-		$paid_to = $data->paid_to;
-		$amount = $data->amount;
-		$description = $data->description;
-	}
-@endphp --}}
+@php
+	$name = $qty = $price = "";
+	// if(!empty(old())){
+	// 	$paid_by = old('paid_by');
+	// 	$paid_to = old('paid_to');
+	// 	$amount = old('amount');
+	// 	$description = old('description');
+	// }else if(isset($data) and !empty($data)){
+	// 	$paid_by = $data->paid_by;
+	// 	$paid_to = $data->paid_to;
+	// 	$amount = $data->amount;
+	// 	$description = $data->description;
+	// }
+@endphp
 <div class="row">
 	<div class="col-md-12">
 		<div class="card border-info">
 			<div class="card-header bg-info">
-				<h3 class="text-white">Add New Purchase</h3>
+				<h3 class="text-white">Add New Gradient</h3>
 			</div>
 			<div class="card-body">
 				<form action="" method="post">
@@ -43,31 +43,31 @@
 	                    </div>
 						<div class="col-md-6 form-group">
 							@php
-	                            if (isset($_POST['product_name'])) {
-	                              $_product_name = $_POST['product_name'];
+	                            if (isset($_POST['name'])) {
+	                              $_product_name = $_POST['name'];
 	                            }elseif(!empty($data)){
-	                              $_product_name = $data['product_name'];
+	                              $_product_name = $data['name'];
 	                            }else{
 	                              $_product_name = "";
 	                            }
 	                          @endphp
 							<label for="">Product Name <span class="req">*</span></label>
-							<input type="text" name="product_name" class="form-control product_name" value="{{ $_product_name }}">
-							@error('product_name') <div class="text-danger">{!! $message !!}</div> @enderror
+							<input type="text" name="name" class="form-control name" value="{{ $_product_name }}">
+							@error('name') <div class="text-danger">{!! $message !!}</div> @enderror
 						</div>
 						<div class="col-md-6 form-group">
 							@php
-	                            if (isset($_POST['quantity'])) {
-	                              $_quantity = $_POST['quantity'];
+	                            if (isset($_POST['qty'])) {
+	                              $_qty = $_POST['qty'];
 	                            }elseif(!empty($data)){
-	                              $_quantity = $data['quantity'];
+	                              $_qty = $data['qty'];
 	                            }else{
-	                              $_quantity = "";
+	                              $_qty = "";
 	                            }
 	                          @endphp
 							<label for=""> Quantity <span class="req">*</span></label>
-							<input type="text" name="quantity" class="form-control quantity" value="{{ $_quantity }}">
-							@error('quantity') <div class="text-danger">{!! $message !!}</div> @enderror
+							<input type="text" name="qty" class="form-control qty" value="{{ $_qty }}">
+							@error('qty') <div class="text-danger">{!! $message !!}</div> @enderror
 						</div>
 						
 						<div class="col-md-12 text-right">

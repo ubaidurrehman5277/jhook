@@ -32,6 +32,9 @@ class SuperAdminController extends Controller
 
   function add_gradient(Request $request)
   {
-    
+    if(request()->isMethod('post')){
+
+    }
+    return view('superadmin.add-product');
   }
 }
