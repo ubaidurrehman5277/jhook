@@ -10,6 +10,7 @@ use App\Models\table;
 use App\Models\Product;
 use App\Models\Menu;
 use App\Models\Sale;
+use App\Models\SSale;
 
 class LoginController extends Controller
 {
@@ -114,9 +115,54 @@ class LoginController extends Controller
     return view('user.sales-list', compact('record','all_menus'));
   }
 
-  function shop(Request $request)
-  {
-    return view('shop.sales');
+  function shop(Request $request){
+    // dd($request->all());
+    $products = Product::where('quantity','>','0')->get();
+    $all_menus = Menu::all();
+    if (request()->isMethod('post')) {
+      // dd($request->all());
+      request()->validate([
+        'pname' => 'required',
+        'available_quantity' => 'required|numeric|min:1',
+        'qty' => 'required|numeric|min:1',   
+        'total_price' => 'nullable|numeric|min:1',
+      ],[
+        'pname.required' => 'Product name field is required',
+        'qty.required' => 'Item/Kg field is required',
+        'menu.numeric' => 'Please choose value from dropdown',
+        'qty.numeric' => 'Item/Kg must be a numeric value',
+        'total_price.numeric' => 'Price must be a number',
+        'total_price.min' => 'Price must be greater than zero',
+      ]);
+      // dd($request->all());
+      if (request()->has('orderid')) {
+        $shop_sale = SSale::find(request('orderid'));
+        $old_price = $shop_sale->price;
+        $old_qty = $shop_sale->qty;
+        $old_product = $shop_sale->product_name;
+        $old_order_detail = json_decode($shop_sale->order_detail , true);
+        // dd($old_order_detail);
+      }else{
+        $shop_sale = new SSale;
+        $old_order_detail = [];
+        // $old_price = "";
+        // $old_qty   = "";
+        $old_product = $request->pname;
+      }
+      // dd($old_product);
+      $product = explode(',',$old_product);
+      $shop_sale->product_name = $product;
+      $shop_sale->quantity = $request->qty;
+      $shop_sale->price = $request->total_price;
+      $array = ['product_name' => request('pname'),'qty' => request('qty'),'price' => request('total_price')];
+      array_push($old_order_detail, $array);
+      // dd($old_order_detail);
+      // $order_d = array_merge($old_order_detail,$array);
+      $shop_sale->order_detail  = json_encode($old_order_detail);
+      $shop_sale->save();
+      return redirect(route('shop-sale')."?orderid=".$shop_sale->id)->with('success','Order has been placed successfully');
+  }
+    return view('shop.sales',compact('products'));
   }
 
   function order_status()
