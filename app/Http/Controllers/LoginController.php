@@ -124,6 +124,7 @@ class LoginController extends Controller
 
   function shop(Request $request){
     $products = Product::where('quantity','>','0')->get();
+    $order_detail = array();
     if (request()->isMethod('post')) {
       request()->validate([
         'pname' => 'required',
@@ -175,7 +176,7 @@ class LoginController extends Controller
       $order_detail = json_decode($data->order_detail , true);
       return view('shop.sales',compact('products','data','order_detail'));
     }
-    return view('shop.sales',compact('products'));
+    return view('shop.sales',compact('products','order_detail'));
   }
 
 
