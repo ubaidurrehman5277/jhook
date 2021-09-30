@@ -1,10 +1,10 @@
 @include('user.header')
 @php
-	$menu = $table = $qty = $total_price = "";
+	$menu = $table = $qty = $product = $total_price = "";
 	$order_detail = array();
 	if(!empty(old())){
-		$meun = old('meun');
-		$table = old('table');
+		$menu = old('menu');
+		$product = old('product');
 		$qty = old('qty');
 		$total_price = old('total_price');
 	}else if(isset($data) and !empty($data)){
@@ -43,13 +43,16 @@
 			<div class="card-body">
 				<form action="" method="post" accept-charset="utf-8">
 					@csrf
+					@if(request()->has('orderid'))
+						<input type="hidden" name="orderid" value="{{ request('orderid') }}">
+					@endif
 					<div class="row">
 						<div class="col-md-12 form-group">
-							<label for="">Select Table</label>
-							<select name="table" class="form-control"  {{ (!empty($data))?"readonly disabled":"" }}>
+							<label for="">Select Product</label>
+							<select name="pname" class="form-control pname"  {{ (!empty($data))?"readonly disabled":"" }}>
 								<option value="">Choose an Option</option>
-								@forelse($tables as $value)
-									<option value="{{ $value->id }}" {{ ($table == $value->id) ? "selected" : "" }}>{{ $value->table_no }}</option>
+								@forelse($products as $value)
+									<option value="{{ $value->id }}" data-price = "{{ $value->price }}" data-quantity="{{ $value->quantity }}" {{ ($product == $value->id) ? "selected" : "" }}>{{ $value->product_name }}</option>
 								@empty
 								@endforelse
 							</select>
@@ -57,26 +60,18 @@
 								<span class="text-danger">{!! $message !!}</span>
 							@enderror
 						</div>
+
 						<div class="col-md-12 form-group">
-							<label for="">Select Menu</label>
-							<select name="menu" class="form-control menu">
-								<option value="">Choose an Option</option>
-								@forelse($menus as $value)
-									@php
-										$m = $all_menus->where('id',$value->main_menu)->first();
-										$m_name = ($m) ? $value->name." - ".$m->name : $value->name;
-									@endphp
-									<option value="{{ $value->id }}" data-price = "{{ $value->price }}" data-asprice="{{ $value->asuming_price }}">{{ $m_name }}</option>
-								@empty
-								@endforelse
-							</select>
-							@error('menu')
+							<label for="">Available Quantity</label>
+							<input type="number" class="form-control available_quantity" name="available_quantity" value="0" readonly>
+							@error('available_quantity')
 								<span class="text-danger">{!! $message !!}</span>
 							@enderror
 						</div>
+
 						<div class="col-md-6 form-group">
 							<label for="">Total Item/Kg</label>
-							<input type="number" class="form-control qty" name="qty" value="0">
+							<input type="number" class="form-control qty" name="qty" value="0" min="0">
 							@error('qty')
 								<span class="text-danger">{!! $message !!}</span>
 							@enderror
@@ -156,16 +151,38 @@
 	$(document).ready(function(){
 		$('input[name="qty"]').on('keyup , change',function(){
 			var qty = $(this).val();
-			var price = $('.menu').find('option:selected').attr('data-price');
+			var price = $('.pname').find('option:selected').attr('data-price');
 			console.log(price);
-			var total = parseInt(price) * parseInt(qty);
-			$('.total_price').val(total);
+			if (price == 0 || price == undefined) {
+				var total = 0;
+				$('.total_price').val(total);
+			}else{
+				var total = parseInt(price) * parseInt(qty);
+				$('.total_price').val(total);
+			}
 		})
-		$('.menu').on('change',function(){
+		$('.pname').on('change',function(){
 			var qty = $('.qty').val();
-			var price = $('.menu').find('option:selected').attr('data-price');	
-			var total = parseInt(price) * parseInt(qty);
-			$('.total_price').val(total);	
+			var price = $('.pname').find('option:selected').attr('data-price');
+			var quantity = $('.pname').find('option:selected').attr('data-quantity');	
+			console.log(quantity);
+			if (price == "" || price == undefined) 
+			{
+				var total = 0;
+				$('.total_price').val(total);	
+
+			}else{
+				var total = parseInt(price) * parseInt(qty);
+				$('.total_price').val(total);	
+			}
+
+			if (quantity == "" || quantity == undefined ) {
+				var quantity = 0;
+				$('.available_quantity').val(quantity);
+			}else {
+				var quantity = $('.pname').find('option:selected').attr('data-quantity');
+				$('.available_quantity').val(quantity);
+			}
 		})
 	})
 </script>

@@ -17,7 +17,7 @@
 	<div class="col-md-12">
 		<div class="card border-info">
 			<div class="card-header bg-info">
-				<h3 class="text-white">Add New Purchase</h3>
+				<h3 class="text-white">Add New Product</h3>
 			</div>
 			<div class="card-body">
 				<form action="" method="post">
@@ -68,6 +68,36 @@
 							<label for=""> Quantity <span class="req">*</span></label>
 							<input type="text" name="quantity" class="form-control quantity" value="{{ $_quantity }}">
 							@error('quantity') <div class="text-danger">{!! $message !!}</div> @enderror
+						</div>
+
+						<div class="col-md-6 form-group">
+							@php
+	                            if (isset($_POST['price'])) {
+	                              $_price = $_POST['price'];
+	                            }elseif(!empty($data)){
+	                              $_price = $data['price'];
+	                            }else{
+	                              $_price = "";
+	                            }
+	                          @endphp
+							<label for=""> Price <span class="req">*</span></label>
+							<input type="text" name="price" class="form-control price" value="{{ $_price }}">
+							@error('price') <div class="text-danger">{!! $message !!}</div> @enderror
+						</div>
+
+						<div class="col-md-6 form-group">
+							@php
+	                            if (isset($_POST['assuming_price'])) {
+	                              $_assuming_price = $_POST['assuming_price'];
+	                            }elseif(!empty($data)){
+	                              $_assuming_price = $data['assuming_price'];
+	                            }else{
+	                              $_assuming_price = "";
+	                            }
+	                          @endphp
+							<label for=""> Assuming Price <span class="req">*</span></label>
+							<input type="text" name="assuming_price" class="form-control assuming_price" value="{{ $_assuming_price }}">
+							@error('assuming_price') <div class="text-danger">{!! $message !!}</div> @enderror
 						</div>
 						
 						<div class="col-md-12 text-right">

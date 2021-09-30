@@ -140,6 +140,8 @@ class AdminController extends Controller
             request()->validate([
                 'product_name'       => 'required',
                 'quantity'          => 'required',
+                'price'             => 'required',
+                'assuming_price'    => 'required',
             ]);
             if (request()->has('id')) {
             $add_product = Product::find(request('id'));
@@ -149,7 +151,9 @@ class AdminController extends Controller
               $message = ['success' => 'Product Added successfully']; 
             }
             $add_product->product_name       = $req->product_name; 
-            $add_product->quantity             = $req->quantity;        
+            $add_product->quantity           = $req->quantity;
+            $add_product->price              = $req->price;
+            $add_product->assuming_price     = $req->assuming_price;          
             $add_product->save();
             return back()->with($message);
         }
