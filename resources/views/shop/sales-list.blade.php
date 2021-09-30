@@ -45,17 +45,18 @@
 						<tbody>
 							@forelse($record as $key => $value)
 								@php
-							    $mm = $all_menus->where('id',$value->cat_id)->first();
+									$dddd = explode(',' , $value->product_name);
+							    $mm = $all_menus->where('id',$dddd[0])->first();
 								@endphp
 								<tr>
 									<td>{{ ++$key }}</td>
 									<td>{{ $value->id }}</td>
-									<td>{{ ($mm) ? $mm->name : "" }} x {{ $value->qty }}</td>
-									<td>{{ $value->total_price }}</td>
+									<td>{{ ($mm) ? $mm->product_name : "" }} x {{ $value->quantity }}</td>
+									<td>{{ $value->price }}</td>
 									<td>{{ ucfirst($value->status) }}</td>
-									<td>{{ date('d/m/Y' , strtotime($value->date)) }}</td>
+									<td>{{ date('d/m/Y' , strtotime($value->created_at)) }}</td>
 									<td style="text-align: center;">
-										<a href="{{ route('sales').'?orderId='.$value->id }}"><i class="fa fa-edit"></i></a>
+										<a href="{{ route('shop-sale').'?orderid='.$value->id }}"><i class="fa fa-edit"></i></a>
 									</td>
 								</tr>
 							@empty
