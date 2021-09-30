@@ -1,4 +1,4 @@
-@include('admin.layouts.header')
+@include('superadmin.layouts.header')
 @php
 	$name = $cnic = $phone = $address = "";
 	if(!empty(old())){
@@ -80,4 +80,4 @@
 		</div>
 	</div>
 </div>
-@include('admin.layouts.footer')
+@include('superadmin.layouts.footer')

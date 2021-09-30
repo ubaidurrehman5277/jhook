@@ -1,4 +1,4 @@
-@include('admin.layouts.header')
+@include('superadmin.layouts.header')
 <link rel="stylesheet" href="{{ asset('css/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}">
 <style>
 	#DataTables_Table_0_wrapper{padding:0px 0px;}
@@ -65,4 +65,4 @@
 <script src="{{ asset('css/plugins/tables/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('css/plugins/tables/js/datatable/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('css/plugins/tables/js/datatable-init/datatable-basic.min.js') }}"></script>
-@include('admin.layouts.footer')
+@include('superadmin.layouts.footer')

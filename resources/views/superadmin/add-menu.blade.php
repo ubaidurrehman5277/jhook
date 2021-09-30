@@ -1,4 +1,4 @@
-@include('admin.layouts.header')
+@include('superadmin.layouts.header')
 @php
 	$menu_name = $price = $_menu = $assuming_price = "";
 	if(!empty(old())){
@@ -124,4 +124,4 @@
 	</div>
 
 </div>
-@include('admin.layouts.footer')
+@include('superadmin.layouts.footer')
