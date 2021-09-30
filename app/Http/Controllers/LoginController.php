@@ -124,7 +124,6 @@ class LoginController extends Controller
 
   function shop(Request $request){
     $products = Product::where('quantity','>','0')->get();
-    $all_menus = Menu::all();
     if (request()->isMethod('post')) {
       request()->validate([
         'pname' => 'required',
@@ -172,7 +171,9 @@ class LoginController extends Controller
       // $products = Product::where('id','$shop_sale->product_name')->get();
       return redirect(route('shop-sale')."?orderid=".$shop_sale->id)->with('success','Order has been placed successfully');
     }else if(request()->has('orderid')){
-
+      $data = SSale::find(request('orderid'));
+      $order_detail = json_decode($data->order_detail , true);
+      return view('shop.sales',compact('products','data','order_detail'));
     }
     return view('shop.sales',compact('products'));
   }
@@ -197,6 +198,26 @@ class LoginController extends Controller
       } 
     }elseif (request()->has('cancel') and is_numeric(request('cancel'))) {
       $order = Sale::find(request('cancel'));
+      if ($order) {
+        $order->status = 'cancel';
+        $order->save();
+        return back()->with('success','Order has been cancelled successfully');
+      }else{
+        return abort('404');
+      } 
+    }elseif (request()->has('shoppaid') and is_numeric(request('shoppaid'))) {
+      $order = SSale::find(request('shoppaid'));
+      if ($order) {
+        $order->status = 'paid';
+        $order->save();
+        $order_detail = json_decode($order->order_detail,true);
+        session(['paid'=>$order_detail]);
+        return back()->with('success','Order has been paid successfully');
+      }else{
+        return abort('404');
+      } 
+    }elseif (request()->has('shopcancel') and is_numeric(request('shopcancel'))) {
+      $order = SSale::find(request('shopcancel'));
       if ($order) {
         $order->status = 'cancel';
         $order->save();

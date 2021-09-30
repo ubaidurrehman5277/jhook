@@ -52,7 +52,6 @@ Route::group(['prefix'=>'/','middleware'=>['auth:login']],function(){
     Route::match(['get','post'],'/sales',[LoginController::class,'sales'])->name('sales');
     Route::match(['get','post'],'/shop-sale',[LoginController::class,'shop'])->name('shop-sale');
     Route::match(['get','post'],'/sales-list',[LoginController::class,'sales_list'])->name('sales-list');
-    Route::match(['get','post'],'/shop-sales-list',[LoginController::class,'shop_sales_list'])->name('shop-sales-list');
     Route::match(['get','post'],'/order-status',[LoginController::class,'order_status'])->name('order-status');
   Route::get('/userlogout' , function(){
     Auth::guard('login')->logout();

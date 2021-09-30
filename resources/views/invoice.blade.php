@@ -1,121 +1,131 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Jhook Resturant</title>
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicon.png') }}">
-    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
-    <script src="{{ asset('assets/css/plugins/common/common.min.js') }}"></script>
-    <style>
-        .req{color:red;font-weight:bolder;}
-        .main {
-          width: 480px;
-          margin: 0 auto;
-        }
-        table {
-          width: 100%;
-        }
-        .theading {
-          font-weight: bold;
-          color: #b89f87 ;
-        }
-        td {
-          padding: 10px 0px;
-        }
-        table tr:nth-child(even){
-          border-bottom: 2px solid #e8e8e8;
-        }
-        table tr:nth-child(odd){
-          border-bottom: 2px solid #eae3dc;
-        }
-        .total {
-          border: 1px solid #b59b81;
-          border-style: dashed;
-          padding: 10px 0px;
-          color: #b0947a;
-        }
-        h2,h5{
-          color: #b0947a;
-        }
-    </style>
-    <script>
-        var _token = '{{ csrf_token() }}';
-    </script>
-</head>
-<body>
+<style>
+    #total-print{
+box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
+padding:2mm;
+margin: 0 auto;
+width: 44mm;
+background: #FFF;}
 
-  <div class="main">
-    <div class="row mt-3">
-      <div class="col-5">
-        <h2>INVOICE</h2>
-        <h5>INVOICE</h5>
-       <p style="font-weight: bold;">00001</p>
-       <h5>Date</h5>
-        {{ date('M d, Y') }}
-      </div>
-      <div class="col-7">
-        <h5>Jhook Resturant</h5>
-        <p><b>Main Saraiki Chaock Road Rajanpur</b></p>
-      </div>
+::selection {background: #f31544; color: #FFF;}
+::moz-selection {background: #f31544; color: #FFF;}
+h1{
+font-size: 1.5em;
+color: #222;
+}
+h2{font-size: .9em;}
+h3{
+font-size: 1.2em;
+font-weight: 300;
+line-height: 2em;
+}
+p{
+font-size: .7em;
+color: #666;
+line-height: 1.2em;
+}
+
+#top, #mid,#bot{ /* Targets all id with 'col-' */
+border-bottom: 1px solid #EEE;
+}
+#top{min-height: 100px;}
+#mid{min-height: 80px;}
+#bot{ min-height: 50px;}
+#top .logo{
+//float: left;
+  height: 60px;
+  width: 60px;
+  background: url(http://michaeltruong.ca/images/logo1.png) no-repeat;
+  background-size: 60px 60px;
+}
+.clientlogo{
+float: left;
+  height: 60px;
+  width: 60px;
+  background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;
+  background-size: 60px 60px;
+border-radius: 50px;
+}
+.info{
+display: block;
+//float:left;
+margin-left: 0;
+}
+.title{
+float: right;
+}
+.title p{text-align: right;}
+table{
+width: 100%;
+border-collapse: collapse;
+}
+.tabletitle{
+background: #EEE;
+}
+.service{border-bottom: 1px solid #EEE;}
+.item{width: 24mm;}
+.itemtext{font-size: .5em;}
+#legalcopy{
+margin-top: 5mm;
+}
+</style>
+<div id="total-print" style="display: none;">
+  <center id="top">
+    <div class="logo"></div>
+    <div class="info">
+      <h1>Jhok Restaurant</h1>
+    </div><!--End Info-->
+  </center><!--End InvoiceTop-->
+    
+  <div id="mid">
+    <div class="info">
+      <h2>Contact Info</h2>
+      <p style="margin-left: 10px;">
+        Address : Main Indus Highway, Rajanpur City</br>
+        Phone   : 0332-1751930</br>
+      </p>
     </div>
-
-    <div class="row mt-3">
-      <div class="col-12">
-        <table>
-          <tr style="border-bottom: 3px solid #b89f87;">
-            <th class="theading">Item</th>
-            <th class="theading">Description</th>
-            <th class="theading">Quantity</th>
-            <th class="theading">Price</th>
-            <th class="theading">Total</th>
+  </div><!--End Invoice Mid-->
+    
+  <div id="bot">
+    <div id="table">
+      <table style="width: 100%; font-size: 16px;">
+        <tr class="tabletitle">
+          <th class="item" style="font-size:18px;">Name</th>
+          <th class="Hours" style="font-size:18px;">Item/Kg</th>
+          <th class="Rate" style="font-size:18px;">Sub Total</th>
+        </tr>
+        @php $tt = 0; @endphp
+        @forelse($session_value as $value)
+          @php $tt = $tt + $value['price']; @endphp
+          <tr class="service">
+            <td class="tableitem"><p class="itemtext">{{ $value['product_name'] }}</p></td>
+            <td class="tableitem"><p class="itemtext">{{ $value['qty'] }}</p></td>
+            <td class="tableitem"><p class="itemtext">{{ number_format($value['price']) }}</p></td>
           </tr>
-          <tr>
-            <td>Beef Karhai</td>
-            <td>1kg/with Makhan</td>
-            <td>2</td>
-            <td>1800</td>
-            <td>3600</td>
-          </tr>
-          <tr>
-            <td>Chinese</td>
-            <td>1 Dish with rita salad </td>
-            <td>2</td>
-            <td>300</td>
-            <td>600</td>
-          </tr>
-          <tr>
-            <td>Raishme Kabab</td>
-            <td>Saikh Kabab </td>
-            <td>4</td>
-            <td>50</td>
-            <td>200</td>
-          </tr>
-        </table>
-        <div class="col-12 total">
-          <div class="row">
-            <div class="col-6">
-              <span style="padding-left: 10px;">DUE DATE</span>
-              <span style="font-weight: bold;font-size: 22px;padding:0px 10px; ">{{ date('M d,Y')}}</span>
-            </div>
-            <div class="col-6">
-               <span style="padding-left: 10px;">TOTAL BILL</span>
-              <span style="font-weight: bold;font-size: 22px;padding: 0px 10px;">3900</span>
-            </div>
-          </div>
-        </div>
-        <hr>
-        <div style="text-align: center;font-size: 14px">
-          <p>Powered By: FuTechSol 0300-5525909</p>
-        </div>
-      </div>
+        @empty
+        @endforelse
+        <tr class="tabletitle">
+          <td></td>
+          <td class="Rate"><h2>Total</h2></td>
+          <td class="payment"><h2>{{ number_format($tt) }}</h2></td>
+        </tr>
+      </table>
+    </div><!--End Table-->
+    <div id="legalcopy">
+      <p class="legal" style="font-size: 18px;text-align: center;"><strong>Thank you for your business!</strong></p>
+      <p class="legal" style="font-family: cursive; text-align: center;margin-bottom: 5px;">Powered By:<strong> Future Technology Solution : 0300-5525909</strong></p>
     </div>
-  </div>
+  </div><!--End InvoiceBot-->
+</div><!--End Invoice-->
 
-  <script src="{{ asset('assets/js/custom.min.js') }}"></script>
-  <script src="{{ asset('assets/js/settings.js') }}"></script>
-  <script src="{{ asset('assets/js/gleek.js') }}"></script>
-  <script src="{{ asset('assets/js/styleSwitcher.js') }}"></script>
-</body>
-</html>
+<script>
+  $(document).ready(function(){
+    $('#total-print').css('display','block');
+    printJS({
+      printable: 'total-print',
+      type: 'html',
+      style: '@page { size: portrait; }',
+    })
+    $('#total-print').css('display','none');
+  })
+</script>

@@ -36,7 +36,7 @@
 					<div class="row">
 						<div class="col-md-12 form-group">
 							<label for="">Select Product</label>
-							<select name="pname" class="form-control pname"  {{ (!empty($data))?"readonly disabled":"" }}>
+							<select name="pname" class="form-control pname">
 								<option value="">Choose an Option</option>
 								@forelse($products as $value)
 									<option value="{{ $value->id }}" data-price = "{{ $value->price }}" data-quantity="{{ $value->quantity }}" {{ ($product == $value->id) ? "selected" : "" }}>{{ $value->product_name }}</option>
@@ -92,9 +92,13 @@
 				<table class="table">
 					@php $tt = 0; @endphp
 					@forelse($order_detail as $key => $value)
-						@php $tt = $tt + $value['price']; @endphp
+						@php 
+							$tt = $tt + $value['price']; 
+							$mmm = $products->where('id',$value['product_name'])->first();
+							$m_name = ($mmm) ? $mmm->product_name : "";
+						@endphp
 						<tr>
-							<td>{{ $value['name']." x ".$value['qty'] }}</td>
+							<td>{{ $m_name." x ".$value['qty'] }}</td>
 							<td>{{ number_format($value['price']) }}</td>
 						</tr>
 					@empty
@@ -106,10 +110,10 @@
 					@if(!empty($data) and $data->status == 'pending')
 						<tr>
 							<td>
-								<a href="{{ route('order-status').'?cancel='.$_orderId }}" class="text-danger float-right" onclick="return confirm('Are you sure want to cancel this order?')">Cancel</a>
+								<a href="{{ route('order-status').'?shopcancel='.$_orderId }}" class="text-danger float-right" onclick="return confirm('Are you sure want to cancel this order?')">Cancel</a>
 							</td>
 							<td>
-								<a href="{{ route('order-status').'?paid='.$_orderId }}" class="btn btn-success w-100" style="font-size:22px;">Paid</a>
+								<a href="{{ route('order-status').'?shoppaid='.$_orderId }}" class="btn btn-success w-100" style="font-size:22px;">Paid</a>
 							</td>
 						</tr>
 					@elseif(!empty($data))
@@ -130,7 +134,7 @@
 		$session_value = session()->get('paid');
 		session()->forget('paid');
 	@endphp
-	@include('invoice2' , compact('session_value'));
+	@include('invoice' , compact('session_value'));
     <script src="{{ asset('assets/js/print.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('assets/js/print.min.css') }}">
 @endif
