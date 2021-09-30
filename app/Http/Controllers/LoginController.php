@@ -110,17 +110,22 @@ class LoginController extends Controller
 
   function sales_list(Request $request)
   {
-    $record = Sale::orderby('id','desc')->get();
-    $all_menus = Menu::all();
-    return view('user.sales-list', compact('record','all_menus'));
+    if (auth('login')->user()->type == 'cashier') {
+      
+      $record = Sale::orderby('id','desc')->get();
+      $all_menus = Menu::all();
+      return view('user.sales-list', compact('record','all_menus'));
+    }else{
+      $record = SSale::orderby('id','desc')->get();
+      $all_menus = Product::all();
+      return view('shop.sales-list', compact('record','all_menus'));
+    }
   }
 
   function shop(Request $request){
-    // dd($request->all());
     $products = Product::where('quantity','>','0')->get();
     $all_menus = Menu::all();
     if (request()->isMethod('post')) {
-      // dd($request->all());
       request()->validate([
         'pname' => 'required',
         'available_quantity' => 'required|numeric|min:1',
@@ -134,14 +139,12 @@ class LoginController extends Controller
         'total_price.numeric' => 'Price must be a number',
         'total_price.min' => 'Price must be greater than zero',
       ]);
-      // dd($request->all());
       if (request()->has('orderid')) {
         $shop_sale = SSale::find(request('orderid'));
         $old_price = $shop_sale->price;
         $old_qty = $shop_sale->quantity;
         $old_product = $shop_sale->product_name;
         $old_order_detail = json_decode($shop_sale->order_detail , true);
-        // dd($old_order_detail);
       }else{
         $shop_sale = new SSale;
         $old_order_detail = [];
@@ -152,26 +155,31 @@ class LoginController extends Controller
       // dd(request()->all());
       // $product = explode(',',$old_product);
       $data = Product::where('id',request('pname'))->first();
+       $quantity = $data->quantity - $request->qty;
       $shop_sale->product_name = (!empty($old_product))?implode(',', [$old_product,$request->pname]):$request->pname;
       $shop_sale->quantity = $old_qty + $request->qty;
       $shop_sale->price = $old_price + $request->total_price;
       $array = ['product_name' => request('pname'),'qty' => request('qty'),'price' => request('total_price')];
       array_push($old_order_detail, $array);
-      // dd($old_order_detail);
-      // $order_d = array_merge($old_order_detail,$array);
       $shop_sale->order_detail  = json_encode($old_order_detail);
       $shop_sale->save();
       $data = Product::where('id',request('pname'))->first();
-    if ($data) {
-      $data->quantity = $data->quantity - $request->qty;
-      // dd($data->quantity);
-      $data->save();
-    }
+      if ($data) {
+        $data->quantity = $data->quantity - $request->qty;
+        // dd($data->quantity);
+        $data->save();
+      }
       // $products = Product::where('id','$shop_sale->product_name')->get();
       return redirect(route('shop-sale')."?orderid=".$shop_sale->id)->with('success','Order has been placed successfully');
+    }else if(request()->has('orderid')){
+
+    }
+    return view('shop.sales',compact('products'));
   }
 
-    return view('shop.sales',compact('products'));
+
+  function shop_sales_list(Request $request)
+  {
   }
 
   function order_status()

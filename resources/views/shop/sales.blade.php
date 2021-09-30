@@ -1,19 +1,6 @@
 @include('user.header')
 @php
-	$menu = $table = $qty = $product = $total_price = "";
-	$order_detail = array();
-	if(!empty(old())){
-		$menu = old('menu');
-		$product = old('product');
-		$qty = old('qty');
-		$total_price = old('total_price');
-	}else if(isset($data) and !empty($data)){
-		$meun = $data->cat_id;
-		$table = $data->table_no;
-		$qty = $data->qty;
-		$total_price = $data->total_price;
-		$order_detail = json_decode($data->order_detail , true);
-	}
+	$menu = $qty = $available_quantity = $product = $total_price = "";
 	$_orderId = (!empty($data)) ? $data->id : "";
 @endphp
 <div class="row">

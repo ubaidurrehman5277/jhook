@@ -68,7 +68,7 @@
 						</div>
 						<div class="col-md-6 form-group">
 							<label for="">Password <span class="req">*</span></label>
-							<input type="text" name="password" class="form-control password" value="{{-- {{ $password }} --}}">
+							<input type="password" name="password" class="form-control password" value="{{-- {{ $password }} --}}">
 							@error('password') <div class="text-danger">{!! $message !!}</div> @enderror
 						</div>
 						<div class="col-md-12 text-right">
