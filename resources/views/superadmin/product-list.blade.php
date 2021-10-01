@@ -30,7 +30,7 @@
     </div>
 		<div class="card border-info">
 			<div class="card-header bg-info">
-				<h3 class="text-white">Gradients List</h3>
+				<h3 class="text-white">Ingradients List</h3>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">

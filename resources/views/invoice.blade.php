@@ -99,9 +99,12 @@ margin-top: 5mm;
         </tr>
         @php $tt = 0; @endphp
         @forelse($session_value as $value)
-          @php $tt = $tt + $value['price']; @endphp
+          @php $tt = $tt + $value['price'];
+            $mmm = $products->where('id',$value['product_name'])->first();
+            $m_name = ($mmm) ? $mmm->product_name : "";
+          @endphp
           <tr class="service">
-            <td style="border: 1px solid #333; text-align: center;" class="tableitem"><p class="itemtext">{{ $value['product_name'] }}</p></td>
+            <td style="border: 1px solid #333; text-align: center;" class="tableitem"><p class="itemtext">{{ $m_name }}</p></td>
             <td style="border: 1px solid #333; text-align: center;" class="tableitem"><p class="itemtext">{{ $value['qty'] }}</p></td>
             <td style="border: 1px solid #333; text-align: center;" class="tableitem"><p class="itemtext">{{ number_format($value['price']) }}</p></td>
           </tr>

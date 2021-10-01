@@ -21,7 +21,7 @@
 	<div class="col-md-12">
 		<div class="card border-info">
 			<div class="card-header bg-info">
-				<h3 class="text-white">Add New Gradient</h3>
+				<h3 class="text-white">Add New Ingradient</h3>
 			</div>
 			<div class="card-body">
 				<form action="" method="post">
@@ -58,7 +58,7 @@
 	                              $_name = "";
 	                            }
 	                          @endphp
-							<label for="">Gradient Name <span class="req">*</span></label>
+							<label for="">Ingradient Name <span class="req">*</span></label>
 							<input type="text" name="name" class="form-control name" value="{{ $_name }}">
 							@error('name') <div class="text-danger">{!! $message !!}</div> @enderror
 						</div>

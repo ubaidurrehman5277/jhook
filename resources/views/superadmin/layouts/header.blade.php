@@ -86,13 +86,13 @@
                     <li class="nav-label">Kitchen</li>
                     <li class="">
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-menu menu-icon"></i> <span class="nav-text">Gradients</span>
+                            <i class="icon-menu menu-icon"></i> <span class="nav-text">Ingradients</span>
                         </a>
                         <ul aria-expanded="false">
                             <li>
-                                <a href="{{ route('add-gradient') }}" class="{{ (Request::segment(2) == 'add-gradient') ? "active" : "" }}">Add New Gradient</a>
+                                <a href="{{ route('add-gradient') }}" class="{{ (Request::segment(2) == 'add-gradient') ? "active" : "" }}">Add New Ingradient</a>
                             </li>
-                            <li><a href="{{ route('gradient-list') }}">Gradient List</a></li>
+                            <li><a href="{{ route('gradient-list') }}">Ingradient List</a></li>
                         </ul>
                     </li>
 

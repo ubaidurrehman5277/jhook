@@ -136,7 +136,7 @@
 		session()->forget('paid');
 		session()->forget('invoice');
 	@endphp
-	@include('invoice' , compact('session_value','invoice_no'));
+	@include('invoice' , compact('session_value','invoice_no','products'));
     <script src="{{ asset('assets/js/print.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('assets/js/print.min.css') }}">
 @endif
