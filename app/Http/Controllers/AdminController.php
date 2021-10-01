@@ -40,7 +40,7 @@ class AdminController extends Controller
     $ttable   = table::count();
     $tmenu    = Menu::whereNull('main_menu')->count();
     $tsmenu    = Menu::whereNotNull('main_menu')->count();
-    $tproduct = Product::count();
+    $tproduct = Product::where('quantity','>','0')->count();
     $tpending    = Sale::where('status','pending')->count();
     // $tsale    = Sale::where('date','date("d M Y")')->count();
     $tsale = Sale::where(['date'=>date("Y-m-d"),'status'=>'paid'])->sum('total_price');

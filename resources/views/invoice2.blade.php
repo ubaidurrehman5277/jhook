@@ -92,26 +92,25 @@ margin-top: 5mm;
 		
 	<div id="bot">
 		<div id="table">
-			<table style="width: 100%; font-size: 16px;">
+			<table style="width: 100%; font-size: 16px; border-collapse: collapse;">
 				<tr class="tabletitle">
-					<th class="item" style="font-size:18px;">Name</th>
-					<th class="Hours" style="font-size:18px;">Item/Kg</th>
-					<th class="Rate" style="font-size:18px;">Sub Total</th>
+					<th style="border: 1px solid #333; padding: 0px 8px;" class="item" style="font-size:18px;">Name</th>
+					<th style="border: 1px solid #333; padding: 0px 8px;" class="Hours" style="font-size:18px;">Item/Kg</th>
+					<th style="border: 1px solid #333; padding: 0px 8px;" class="Rate" style="font-size:18px;">Sub Total</th>
 				</tr>
 				@php $tt = 0; @endphp
 				@forelse($session_value as $value)
 					@php $tt = $tt + $value['price']; @endphp
 					<tr class="service">
-						<td class="tableitem"><p class="itemtext">{{ $value['name'] }}</p></td>
-						<td class="tableitem"><p class="itemtext">{{ $value['qty'] }}</p></td>
-						<td class="tableitem"><p class="itemtext">{{ number_format($value['price']) }}</p></td>
+						<td style="border: 1px solid #333; text-align: center;" class="tableitem"><p class="itemtext">{{ $value['name'] }}</p></td>
+						<td style="border: 1px solid #333; text-align: center;" class="tableitem"><p class="itemtext">{{ $value['qty'] }}</p></td>
+						<td style="border: 1px solid #333; text-align: center;" class="tableitem"><p class="itemtext">{{ number_format($value['price']) }}</p></td>
 					</tr>
 				@empty
 				@endforelse
 				<tr class="tabletitle">
-					<td></td>
-					<td class="Rate"><h2>Total</h2></td>
-					<td class="payment"><h2>{{ number_format($tt) }}</h2></td>
+					<td style="border: 1px solid #333; text-align: center;" colspan="2" class="Rate"><h2>Total</h2></td>
+					<td style="border: 1px solid #333; text-align: center;" class="payment"><h2>{{ number_format($tt) }}</h2></td>
 				</tr>
 			</table>
 		</div><!--End Table-->
