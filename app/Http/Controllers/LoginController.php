@@ -192,14 +192,27 @@ class LoginController extends Controller
   {
   }
 
-  function order_status()
+  function order_status(Request $request)
   {
     if (request()->has('paid') and is_numeric(request('paid'))) {
       $order = Sale::find(request('paid'));
       if ($order) {
         $order->status = 'paid';
         $order->save();
+        $__id = $order->id;
         $order_detail = json_decode($order->order_detail,true);
+        if(count($order_detail) > 0){
+          foreach($order_detail as $value){
+            $sale_detail = new SaleDetail;
+            $sale_detail->orderid = $__id;
+            $sale_detail->name = $value['name'];
+            $sale_detail->quantity = $value['qty'];
+            $sale_detail->price = $value['price'];
+            $sale_detail->date = date('Y-m-d');
+            $sale_detail->type = 'menu';
+            $sale_detail->save();
+          }
+        }
         session(['paid'=>$order_detail,'invoice'=>$order->id]);
         return back()->with('success','Order has been paid successfully');
       }else{
@@ -219,7 +232,20 @@ class LoginController extends Controller
       if ($order) {
         $order->status = 'paid';
         $order->save();
+        $__id = $order->id;
         $order_detail = json_decode($order->order_detail,true);
+        if(count($order_detail) > 0){
+          foreach($order_detail as $value){
+            $sale_detail = new SaleDetail;
+            $sale_detail->orderid = $__id;
+            $sale_detail->name = $value['product_name'];
+            $sale_detail->quantity = $value['quantity'];
+            $sale_detail->price = $value['price'];
+            $sale_detail->date = date('Y-m-d');
+            $sale_detail->type = 'shop';
+            $sale_detail->save();
+          }
+        }
         session(['paid'=>$order_detail,'invoice'=>$order->id]);
         return back()->with('success','Order has been paid successfully');
       }else{
