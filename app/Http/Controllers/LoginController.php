@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\Menu;
 use App\Models\Sale;
 use App\Models\SSale;
+use App\Models\SaleDetail;
 
 class LoginController extends Controller
 {
@@ -163,6 +164,13 @@ class LoginController extends Controller
       array_push($old_order_detail, $array);
       $shop_sale->order_detail  = json_encode($old_order_detail);
       $shop_sale->save();
+      $sale_detail = new SaleDetail;
+      $sale_detail->name = $request->pname;
+      $sale_detail->quantity = $request->qty;
+      $sale_detail->price = $request->total_price;
+      $sale_detail->date = date('Y-m-d');
+      $sale_detail->type = $request->type;
+      $sale_detail->save();
       $data = Product::where('id',request('pname'))->first();
       if ($data) {
         $data->quantity = $data->quantity - $request->qty;

@@ -33,6 +33,7 @@
 					@if(request()->has('orderid'))
 						<input type="hidden" name="orderid" value="{{ request('orderid') }}">
 					@endif
+					<input type="hidden" name="type" value="shop_sale">
 					<div class="row">
 						<div class="col-md-12 form-group">
 							<label for="">Select Product</label>
