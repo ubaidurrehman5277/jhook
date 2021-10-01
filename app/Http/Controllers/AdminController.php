@@ -258,10 +258,34 @@ class AdminController extends Controller
       return abort(404);
     }
   }
+
   function view_profitloss_pdf($record)
   {
     $menus = Menu::all();
     return view('reports.profit_loss' , compact('record','menus'));
+  }
+
+  function menu_report()
+  {
+    if (request()->has('pdf') and request('pdf') == 'true') {
+        $query = "Select * from sales where status = 'paid' ";
+        if (request()->has('date_from')) {
+            // $date_from = implode('-',array_reverse(explode('/',request('date_from'))));
+            $query .= " AND date >= '".request('date_from')."'";
+        }
+        if (request()->has('date_to')) {
+            // $date_to = implode('-',array_reverse(explode('/',request('date_to'))));
+            $query .= " AND date <= '".request('date_to')."'";
+        }
+        // dd($query);
+        $record = DB::select($query);
+        $file = 'Profit Loss Report .pdf';
+        pdf_generate($this->view_profitloss_pdf($record),$file,true,false,'legal');
+        $fileurl = public_path()."/images/".$file;
+        return Response::download($fileurl, $file, array('Content-Type: application/octet-stream','Content-Length: '. filesize($fileurl)))->deleteFileAfterSend(true);
+    }else{
+      return abort(404);
+    }
   }
 
 }

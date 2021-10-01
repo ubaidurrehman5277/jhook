@@ -43,6 +43,7 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth:admin']],function(){
   Route::match(['get','post'],'/add-expense' , [ExpenseController::class , 'add_expense'])->name('add-expense');
   Route::match(['get','post'],'/net-sale' , [AdminController::class , 'net_sale'])->name('net-sale');
   Route::match(['get','post'],'/profit-loss' , [AdminController::class , 'profit_loss'])->name('profit-loss');
+  Route::match(['get','post'],'/menu-report' , [AdminController::class , 'menu_report'])->name('menu-report');
   Route::get('/adminlogout' , function(){
     Auth::guard('admin')->logout();
     return redirect(route('admin'));

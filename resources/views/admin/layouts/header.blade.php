@@ -145,6 +145,9 @@
                             <li>
                                 <a href="#" class="m-call" data-href="{{ route('profit-loss') }}" data-title="Profit Loss Report" data-toggle="modal" data-target="#basicModal">Profit/Loss Report</a>
                             </li>
+                            <li>
+                                <a href="#" class="m-call" data-href="{{ route('menu-report') }}" data-title="Menu Report" data-toggle="modal" data-target="#basicModal">Menu/Report</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-label">Closing</li>
