@@ -77,7 +77,7 @@ margin-top: 5mm;
 	</center><!--End InvoiceTop-->
   <div style="width: 100%;">
     <div style="width: 48%;float:left;"><b>Order No. : </b>{{ $invoice_no }}</div>
-    <div style="width: 48%;float:left;text-align: right;"><b>Date : </b>{{ date('d/m/Y') }}</div>
+    <div style="width: 48%;float:left;text-align: right;"><b>Date : </b>{{ date('d/m/Y h:i:s A') }}</div>
   </div>
 		
 	<div id="mid">
