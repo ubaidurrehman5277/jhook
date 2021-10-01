@@ -192,7 +192,7 @@ class LoginController extends Controller
         $order->status = 'paid';
         $order->save();
         $order_detail = json_decode($order->order_detail,true);
-        session(['paid'=>$order_detail]);
+        session(['paid'=>$order_detail,'invoice'=>$order->id]);
         return back()->with('success','Order has been paid successfully');
       }else{
         return abort('404');
@@ -212,7 +212,7 @@ class LoginController extends Controller
         $order->status = 'paid';
         $order->save();
         $order_detail = json_decode($order->order_detail,true);
-        session(['paid'=>$order_detail]);
+        session(['paid'=>$order_detail,'invoice'=>$order->id]);
         return back()->with('success','Order has been paid successfully');
       }else{
         return abort('404');

@@ -146,9 +146,11 @@
 @if(session()->has('paid'))
 	@php
 		$session_value = session()->get('paid');
+		$invoice_no = session()->get('invoice');
 		session()->forget('paid');
+		session()->forget('invoice');
 	@endphp
-	@include('invoice2' , compact('session_value'));
+	@include('invoice2' , compact('session_value','invoice_no'));
     <script src="{{ asset('assets/js/print.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('assets/js/print.min.css') }}">
 @endif
@@ -158,13 +160,13 @@
 			var qty = $(this).val();
 			var price = $('.menu').find('option:selected').attr('data-price');
 			console.log(price);
-			var total = parseInt(price) * parseInt(qty);
+			var total = Number(price) * Number(qty);
 			$('.total_price').val(total);
 		})
 		$('.menu').on('change',function(){
 			var qty = $('.qty').val();
 			var price = $('.menu').find('option:selected').attr('data-price');	
-			var total = parseInt(price) * parseInt(qty);
+			var total = Number(price) * Number(qty);
 			$('.total_price').val(total);	
 		})
 	})
