@@ -42,9 +42,9 @@ class LoginController extends Controller
     $tables = table::orderby('id','desc')->get();
     if (request()->isMethod('post')) {
       request()->validate([
-        'menu' => 'required|numeric|min:1',
-        'qty' => 'required|numeric|min:1',
-        'total_price' => 'nullable|numeric|min:1',
+        'menu' => 'required|numeric|min:0',
+        'qty' => 'required|numeric|min:0',
+        'total_price' => 'nullable|numeric|min:0',
       ],[
         'menu.required' => 'Menu name field is required',
         'qty.required' => 'Item/Kg field is required',
@@ -63,7 +63,7 @@ class LoginController extends Controller
         $message = ['success','Order has been updated successfully'];
       }else{
         request()->validate([
-          'table' => 'required|numeric|min:1',
+          'table' => 'required|numeric|min:0',
         ],[
           'table.required' => 'Table field is required',
           'table.numeric' => 'Please choose value from dropdown',
@@ -129,9 +129,9 @@ class LoginController extends Controller
     if (request()->isMethod('post')) {
       request()->validate([
         'pname' => 'required',
-        'available_quantity' => 'required|numeric|min:1',
-        'qty' => 'required|numeric|min:1',   
-        'total_price' => 'nullable|numeric|min:1',
+        'available_quantity' => 'required|numeric|min:0',
+        'qty' => 'required|numeric|min:0',   
+        'total_price' => 'nullable|numeric|min:0',
       ],[
         'pname.required' => 'Product name field is required',
         'qty.required' => 'Item/Kg field is required',
@@ -200,7 +200,7 @@ class LoginController extends Controller
         $order->status = 'paid';
         $order->save();
         $order_detail = json_decode($order->order_detail,true);
-        session(['paid'=>$order_detail]);
+        session(['paid'=>$order_detail,'invoice'=>$order->id]);
         return back()->with('success','Order has been paid successfully');
       }else{
         return abort('404');
@@ -220,7 +220,7 @@ class LoginController extends Controller
         $order->status = 'paid';
         $order->save();
         $order_detail = json_decode($order->order_detail,true);
-        session(['paid'=>$order_detail]);
+        session(['paid'=>$order_detail,'invoice'=>$order->id]);
         return back()->with('success','Order has been paid successfully');
       }else{
         return abort('404');

@@ -3,7 +3,7 @@
 box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
 padding:2mm;
 margin: 0 auto;
-width: 44mm;
+width: 100%;
 background: #FFF;}
 
 ::selection {background: #f31544; color: #FFF;}
@@ -75,7 +75,10 @@ margin-top: 5mm;
       <h1>Jhok Restaurant</h1>
     </div><!--End Info-->
   </center><!--End InvoiceTop-->
-    
+  <div style="width: 100%;">
+    <div style="width: 48%;float:left;"><b>Invoice No. : </b>{{ $invoice_no }}</div>
+    <div style="width: 48%;float:left;text-align: right;"><b>Date : </b>{{ date('d/m/Y h:i:s A') }}</div>
+  </div>
   <div id="mid">
     <div class="info">
       <h2>Contact Info</h2>
@@ -96,9 +99,12 @@ margin-top: 5mm;
         </tr>
         @php $tt = 0; @endphp
         @forelse($session_value as $value)
-          @php $tt = $tt + $value['price']; @endphp
+          @php $tt = $tt + $value['price'];
+            $mmm = $products->where('id',$value['product_name'])->first();
+            $m_name = ($mmm) ? $mmm->product_name : "";
+          @endphp
           <tr class="service">
-            <td style="border: 1px solid #333; text-align: center;" class="tableitem"><p class="itemtext">{{ $value['product_name'] }}</p></td>
+            <td style="border: 1px solid #333; text-align: center;" class="tableitem"><p class="itemtext">{{ $m_name }}</p></td>
             <td style="border: 1px solid #333; text-align: center;" class="tableitem"><p class="itemtext">{{ $value['qty'] }}</p></td>
             <td style="border: 1px solid #333; text-align: center;" class="tableitem"><p class="itemtext">{{ number_format($value['price']) }}</p></td>
           </tr>

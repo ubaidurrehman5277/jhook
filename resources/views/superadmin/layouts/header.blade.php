@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Jhook Resturant</title>
+    <title>Jhok Resturant</title>
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicon.png') }}">
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     <script src="{{ asset('assets/css/plugins/common/common.min.js') }}"></script>
@@ -86,13 +86,13 @@
                     <li class="nav-label">Kitchen</li>
                     <li class="">
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-menu menu-icon"></i> <span class="nav-text">Gradients</span>
+                            <i class="icon-menu menu-icon"></i> <span class="nav-text">Ingradients</span>
                         </a>
                         <ul aria-expanded="false">
                             <li>
-                                <a href="{{ route('add-gradient') }}" class="{{ (Request::segment(2) == 'add-gradient') ? "active" : "" }}">Add New Gradient</a>
+                                <a href="{{ route('add-gradient') }}" class="{{ (Request::segment(2) == 'add-gradient') ? "active" : "" }}">Add New Ingradient</a>
                             </li>
-                            <li><a href="{{ route('gradient-list') }}">Gradient List</a></li>
+                            <li><a href="{{ route('gradient-list') }}">Ingradient List</a></li>
                         </ul>
                     </li>
 

@@ -140,6 +140,8 @@ class AdminController extends Controller
             request()->validate([
                 'product_name'       => 'required',
                 'quantity'          => 'required',
+                'pieces'          => 'required',
+                'pack'          => 'required',
                 'price'             => 'required',
                 'assuming_price'    => 'required',
             ]);
@@ -152,6 +154,8 @@ class AdminController extends Controller
             }
             $add_product->product_name       = $req->product_name; 
             $add_product->quantity           = $req->quantity;
+            $add_product->pack               = $req->pack;
+            $add_product->pieces             = $req->pieces;
             $add_product->price              = $req->price;
             $add_product->assuming_price     = $req->assuming_price;          
             $add_product->save();

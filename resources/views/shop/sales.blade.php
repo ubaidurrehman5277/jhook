@@ -59,7 +59,7 @@
 
 						<div class="col-md-6 form-group">
 							<label for="">Total Item</label>
-							<input type="number" class="form-control qty" name="qty" value="0" min="0">
+							<input type="number" class="form-control qty" name="qty" value="0" min="0" step="any">
 							@error('qty')
 								<span class="text-danger">{!! $message !!}</span>
 							@enderror
@@ -133,9 +133,11 @@
 @if(session()->has('paid'))
 	@php
 		$session_value = session()->get('paid');
+		$invoice_no = session()->get('invoice');
 		session()->forget('paid');
+		session()->forget('invoice');
 	@endphp
-	@include('invoice' , compact('session_value'));
+	@include('invoice' , compact('session_value','invoice_no','products'));
     <script src="{{ asset('assets/js/print.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('assets/js/print.min.css') }}">
 @endif
@@ -149,7 +151,7 @@
 				var total = 0;
 				$('.total_price').val(total);
 			}else{
-				var total = parseInt(price) * parseInt(qty);
+				var total = Number(price) * Number(qty);
 				$('.total_price').val(total);
 			}
 		})
@@ -164,7 +166,7 @@
 				$('.total_price').val(total);	
 
 			}else{
-				var total = parseInt(price) * parseInt(qty);
+				var total = Number(price) * Number(qty);
 				$('.total_price').val(total);	
 			}
 

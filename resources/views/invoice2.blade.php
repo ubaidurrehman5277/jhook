@@ -3,7 +3,7 @@
 box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
 padding:2mm;
 margin: 0 auto;
-width: 44mm;
+width: 100%;
 background: #FFF;}
 
 ::selection {background: #f31544; color: #FFF;}
@@ -75,6 +75,10 @@ margin-top: 5mm;
 			<h1>Jhok Restaurant</h1>
 		</div><!--End Info-->
 	</center><!--End InvoiceTop-->
+  <div style="width: 100%;">
+    <div style="width: 48%;float:left;"><b>Order No. : </b>{{ $invoice_no }}</div>
+    <div style="width: 48%;float:left;text-align: right;"><b>Date : </b>{{ date('d/m/Y h:i:s A') }}</div>
+  </div>
 		
 	<div id="mid">
 		<div class="info">
