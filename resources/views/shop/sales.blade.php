@@ -57,7 +57,7 @@
 						</div>
 
 						<div class="col-md-6 form-group">
-							<label for="">Total Item/Kg</label>
+							<label for="">Total Item</label>
 							<input type="number" class="form-control qty" name="qty" value="0" min="0">
 							@error('qty')
 								<span class="text-danger">{!! $message !!}</span>

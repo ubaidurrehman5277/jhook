@@ -26,7 +26,7 @@
                     <div class="form-input-content">
                         <div class="card login-form mb-0 login_css">
                             <div class="card-body pt-5">
-                                <a class="text-center" href="#"> <h2>Jhook Restaurant</h2></a>
+                                <a class="text-center" href="#"> <h2>Jhok Restaurant</h2></a>
                                 <div class="row">
                                     <div class="col-md-12">
                                         @if(session()->has("error"))
