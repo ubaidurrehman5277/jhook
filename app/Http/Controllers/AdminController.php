@@ -264,23 +264,30 @@ class AdminController extends Controller
     $menus = Menu::all();
     return view('reports.profit_loss' , compact('record','menus'));
   }
+  function view_category_pdf($record,$cat_id)
+  {
+    $menus = Menu::all();
+    $products = Product::all();
+    $menu_detail = $menus->where('id',$cat_id)->first();
+    return view('reports.menu_report' , compact('record','menus','products','menu_detail'));
+  }
 
   function menu_report()
   {
     if (request()->has('pdf') and request('pdf') == 'true') {
-        $query = "Select * from sales where status = 'paid' ";
+        $query = "Select * from sale_detail where type = 'menu' ";
         if (request()->has('date_from')) {
-            // $date_from = implode('-',array_reverse(explode('/',request('date_from'))));
             $query .= " AND date >= '".request('date_from')."'";
         }
         if (request()->has('date_to')) {
-            // $date_to = implode('-',array_reverse(explode('/',request('date_to'))));
             $query .= " AND date <= '".request('date_to')."'";
         }
-        // dd($query);
+        if (request()->has('cat')) {
+            $query .= " AND name = '".request('cat')."'";
+        }
         $record = DB::select($query);
-        $file = 'Profit Loss Report .pdf';
-        pdf_generate($this->view_profitloss_pdf($record),$file,true,false,'legal');
+        $file = 'Category Report .pdf';
+        pdf_generate($this->view_category_pdf($record,request('cat')),$file,true,false,'legal');
         $fileurl = public_path()."/images/".$file;
         return Response::download($fileurl, $file, array('Content-Type: application/octet-stream','Content-Length: '. filesize($fileurl)))->deleteFileAfterSend(true);
     }else{

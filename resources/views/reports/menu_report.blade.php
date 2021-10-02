@@ -11,7 +11,7 @@
 <body>
   <div  style="width: 100%; ">
   <div  style="text-align: center; width: inherit;">
-    <h4>Menu Report</h4>
+    <h4>{{ $menu_detail->name }} Report</h4>
   </div>
   <div style="width: inherit;">
     <table style="border: 1px solid black; width: inherit;border-collapse: collapse;">
@@ -19,11 +19,10 @@
         <tr>
           <th scope="col" style="border-right: 1px solid black;text-align: center;">#</th>
           <th scope="col" style="border-right: 1px solid black;text-align: center;">OrderId</th>
-          <th scope="col" style="border-right: 1px solid black;text-align: center;">Table No</th>
-          <th scope="col" style="border-right: 1px solid black;text-align: center;">Total Item/Kg</th>
+          <th scope="col" style="border-right: 1px solid black;text-align: center;">Items</th>
           <th scope="col" style="border-right: 1px solid black;text-align: center;">Total Price</th>
           <th scope="col" style="border-right: 1px solid black;text-align: center;">Date</th>
-          <th scope="col" style="border-right: 1px solid black;text-align: center;">Profit | Loss</th>
+          {{-- <th scope="col" style="border-right: 1px solid black;text-align: center;">Profit | Loss</th> --}}
         </tr>
       </thead>
       <tbody style="font-size: 10px;">
@@ -31,21 +30,27 @@
           @php $tt = 0; @endphp
           @foreach($record as $key => $value)
             @php
-              $mm = $menus->where('id',$value->cat_id)->first();
-              $tt = $tt + $value->total_price;
+              if ($value->type == 'menu') {
+                $mm = $menus->where('id',$value->name)->first();
+                $mm_name = ($mm) ? $mm->name : "";
+              }else if($value->type == 'shop'){
+                $mm = $products->where('id',$value->name)->first();
+                $mm_name = ($mm) ? $mm->name : "";
+              }else{
+                $mm_name = "";
+              }
+              $tt = $tt + $value->price;
             @endphp
             <tr>
               <td style="border-right: 1px solid black; border-bottom: 1px solid black; padding:5px;text-align: center;">{{ ++$key }}</td>
               <td style="border-right: 1px solid black; border-bottom: 1px solid black; padding:5px;text-align: center;">{{ $value->id }}</td>
-              <td style="border-right: 1px solid black; border-bottom: 1px solid black; padding:5px;text-align: center;">{{ $value->table_no }}</td>
-              <td style="border-right: 1px solid black; border-bottom: 1px solid black; padding:5px;text-align: center;">{{ $value->qty }}</td>
-              <td style="border-right: 1px solid black; border-bottom: 1px solid black; padding:5px;text-align: center;">{{ number_format($value->total_price) }}</td>
+              <td style="border-right: 1px solid black; border-bottom: 1px solid black; padding:5px;text-align: center;">{{ $mm_name }}</td>
+              <td style="border-right: 1px solid black; border-bottom: 1px solid black; padding:5px;text-align: center;">{{ number_format($value->price) }}</td>
               <td style="border-right: 1px solid black; border-bottom: 1px solid black; padding:5px;text-align: center;">{{ (!empty($value->date))?date('d/m/Y' , strtotime($value->date)):"" }}</td>
-              <td style="border-right: 1px solid black; border-bottom: 1px solid black; padding:5px;text-align: center;">{{ ($value->total_price >= $value->ass_price) ? "+" : "" }} {{ $iii = $value->total_price - $value->ass_price }}</td>
             </tr>
           @endforeach
           <tr>
-            <th style="border-right: 1px solid black; border-bottom: 1px solid black; padding:5px;text-align: right;" colspan="5">Total : </th>
+            <th style="border-right: 1px solid black; border-bottom: 1px solid black; padding:5px;text-align: right;" colspan="4">Total : </th>
             <th style="border-right: 1px solid black; border-bottom: 1px solid black; padding:5px;text-align: left;">{{ number_format($tt) }}</th>
             <td>&nbsp;</td>
           </tr>

@@ -107,12 +107,17 @@
 			</div>
 			<div class="card-body">
 				<h3 class="text-center">Order Detail</h3>
+				<span class="text-right">Order Time: {{ (!empty($data)) ? date('h:i:s A' , strtotime($data->created_at)) : "" }}</span>
 				<table class="table">
 					@php $tt = 0; @endphp
 					@forelse($order_detail as $key => $value)
-						@php $tt = $tt + $value['price']; @endphp
+						@php 
+							$tt = $tt + $value['price']; 
+							$mm = $all_menus->where('id',$value['name'])->first();
+							$m_nn = ($mm) ? $mm->name : "";
+						@endphp
 						<tr>
-							<td>{{ $value['name']." x ".$value['qty'] }}</td>
+							<td>{{ $m_nn." x ".$value['qty'] }}</td>
 							<td>{{ number_format($value['price']) }}</td>
 						</tr>
 					@empty
