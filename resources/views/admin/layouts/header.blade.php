@@ -120,6 +120,20 @@
                             <li><a href="{{ route('product-list') }}">Product List</a></li>
                         </ul>
                     </li>
+
+                    <li class="nav-label">Expense</li>
+                    <li class="{{-- {{ (Request::segment(1) == 'add-expense') ? "active" : "" }} --}}">
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-menu menu-icon"></i> <span class="nav-text">Expense</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li>
+                                <a href="{{ route('add-expense') }}" class="{{ (Request::segment(2) == 'add-expense') ? "active" : "" }}">Add Expense</a>
+                            </li>
+                            <li><a href="{{ route('expense-list') }}">Expense List</a></li>
+                        </ul>
+                    </li>
+
                     <li class="nav-label">Kitchen</li>
                     <li class="">
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">

@@ -9,6 +9,7 @@ use App\Models\table;
 use App\Models\Product;
 use App\Models\Menu;
 use App\Models\Sale;
+use App\Models\expense;
 use DB;
 use Response;
 
@@ -179,6 +180,51 @@ class AdminController extends Controller
           $products   = Product::orderby('id')->get();
         }
     return view('admin.product-list', compact('products'));
+  }
+
+  function add_expense(Request $req){
+     // $products   = Product::orderby('id')->get();
+    $data   = expense::where('id', request('id'))->first();
+        if (request()->isMethod('post')) {
+            // dd($req->all());
+            request()->validate([
+                'paid_by'       => 'required',
+                'paid_to'       => 'required',
+                'amount'        => 'required',
+            ]);
+            if (request()->has('id')) {
+            $add_expense = expense::find(request('id'));
+            $message = ['success' => 'Expense has been updated successfully'];
+            }else{
+              $add_expense = new expense;
+              $message = ['success' => 'Expense Added successfully']; 
+            }
+            $add_expense->paid_by       = $req->paid_by; 
+            $add_expense->paid_to           = $req->paid_to;
+            $add_expense->amount               = $req->amount;
+            $add_expense->detail             = $req->detail;
+            $add_expense->date              = date('Y-m-d');          
+            $add_expense->save();
+            return back()->with($message);
+        }
+    return view('admin.add-expense', compact('data'));
+  }
+
+  function expense_list(Request $req){
+     if (request()->has('id')) {
+            if (is_numeric(request('id'))) {
+                $expenses = expense::
+                    where('id', request('id'))
+                    ->delete();
+                return back()->with('success', 'Expense has been deleted successfully');
+            } else {
+                return back();
+            }
+
+        }else{
+          $expenses   = expense::orderby('id')->get();
+        }
+    return view('admin.expense-list', compact('expenses'));
   }
 
   function add_menu(Request $req){

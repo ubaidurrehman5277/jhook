@@ -26,7 +26,7 @@
             </div>
 		<div class="card border-info">
 			<div class="card-header bg-info">
-				<h3 class="text-white">Purchase List</h3>
+				<h3 class="text-white">Expense List</h3>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
@@ -34,20 +34,24 @@
 						<thead>
 							<tr>
 								<th>#</th>
-								<th>Product Name</th>
-								<th>Product Quantity</th>
+								<th>Paid By</th>
+								<th>Paid To</th>
+								<th>Amount</th>
+								<th>Date</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							@forelse($products as  $product)
+							@forelse($expenses as  $expense)
 								<tr>
-									<td>{{ $product['id'] }}</td>
-									<td>{{ $product['product_name'] }}</td>
-									<td>{{ $product['quantity'] }}</td>
+									<td>{{ $expense['id'] }}</td>
+									<td>{{ $expense['paid_by'] }}</td>
+									<td>{{ $expense['paid_to'] }}</td>
+									<td>{{ $expense['amount'] }}</td>
+									<td>{{ $expense['date'] }}</td>
 									<td>
-										<a href="{{ route('product-list').'?id='.$product->id }}" onclick="return confirm('are you sure')"><i class="fa fa-trash"></i></a>
-										<a href="{{ route('add-product').'?id='.$product['id'] }}"><i class="fa fa-edit"></i></a>
+										<a href="{{ route('expense-list').'?id='.$expense->id }}" onclick="return confirm('are you sure')"><i class="fa fa-trash"></i></a>
+										<a href="{{ route('add-expense').'?id='.$expense['id'] }}"><i class="fa fa-edit"></i></a>
 									</td>
 								</tr>
 							@empty

@@ -36,11 +36,13 @@ Route::group(['prefix'=>'/admin','middleware'=>['auth:admin']],function(){
     Route::match(['get','post'],'/tables',[AdminController::class,'tables'])->name('tables');
     Route::match(['get','post'],'/add_product',[AdminController::class,'add_product'])->name('add-product');
     Route::match(['get','post'],'/product_list',[AdminController::class,'product_list'])->name('product-list');
+     Route::match(['get','post'],'/add_expense',[AdminController::class,'add_expense'])->name('add-expense');
+    Route::match(['get','post'],'/expense_list',[AdminController::class,'expense_list'])->name('expense-list');
     Route::match(['get','post'],'/add-gradient',[SuperAdminController::class,'add_gradient'])->name('add-gradient');
     Route::match(['get','post'],'/gradient-list',[SuperAdminController::class,'gradient_list'])->name('gradient-list');
     Route::match(['get','post'],'/add_menu',[AdminController::class,'add_menu'])->name('add-menu');
     Route::match(['get','post'],'/dealers',[customerController::class,'dealers'])->name('dealers');
-  Route::match(['get','post'],'/add-expense' , [ExpenseController::class , 'add_expense'])->name('add-expense');
+  // Route::match(['get','post'],'/add-expense' , [ExpenseController::class , 'add_expense'])->name('add-expense');
   Route::match(['get','post'],'/net-sale' , [AdminController::class , 'net_sale'])->name('net-sale');
   Route::match(['get','post'],'/profit-loss' , [AdminController::class , 'profit_loss'])->name('profit-loss');
   Route::match(['get','post'],'/menu-report' , [AdminController::class , 'menu_report'])->name('menu-report');
