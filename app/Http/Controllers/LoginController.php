@@ -80,7 +80,7 @@ class LoginController extends Controller
       $as_price = (!empty($old_asprice)) ? $old_asprice + ($mm->asuming_price * request('qty')) : $mm->asuming_price * request('qty');
       $name = ($mm) ? $mm->name : "";
       $qty = (!empty($old_qty)) ? $old_qty + $qty : $qty;
-      $new_detail = ['name' => $name,'qty' => request('qty'),'price' => $price];
+      $new_detail = ['name' => request('menu'),'qty' => request('qty'),'price' => $price];
       $price = (!empty($old_price)) ? $old_price + $price : $price;
       if ($old_detail) {
         $old_detail[] = $new_detail;
@@ -153,8 +153,6 @@ class LoginController extends Controller
         $old_qty   = 0;
         $old_product = "";
       }
-      // dd(request()->all());
-      // $product = explode(',',$old_product);
       $data = Product::where('id',request('pname'))->first();
        $quantity = $data->quantity - $request->qty;
       $shop_sale->product_name = (!empty($old_product))?implode(',', [$old_product,$request->pname]):$request->pname;
@@ -164,13 +162,6 @@ class LoginController extends Controller
       array_push($old_order_detail, $array);
       $shop_sale->order_detail  = json_encode($old_order_detail);
       $shop_sale->save();
-      $sale_detail = new SaleDetail;
-      $sale_detail->name = $request->pname;
-      $sale_detail->quantity = $request->qty;
-      $sale_detail->price = $request->total_price;
-      $sale_detail->date = date('Y-m-d');
-      $sale_detail->type = $request->type;
-      $sale_detail->save();
       $data = Product::where('id',request('pname'))->first();
       if ($data) {
         $data->quantity = $data->quantity - $request->qty;
@@ -198,6 +189,7 @@ class LoginController extends Controller
       $order = Sale::find(request('paid'));
       if ($order) {
         $order->status = 'paid';
+        $order->paid_date = date('Y-m-d H:i:s');
         $order->save();
         $__id = $order->id;
         $order_detail = json_decode($order->order_detail,true);
@@ -239,7 +231,7 @@ class LoginController extends Controller
             $sale_detail = new SaleDetail;
             $sale_detail->orderid = $__id;
             $sale_detail->name = $value['product_name'];
-            $sale_detail->quantity = $value['quantity'];
+            $sale_detail->quantity = $value['qty'];
             $sale_detail->price = $value['price'];
             $sale_detail->date = date('Y-m-d');
             $sale_detail->type = 'shop';

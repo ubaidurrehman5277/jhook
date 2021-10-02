@@ -154,13 +154,13 @@
                         </a>
                         <ul aria-expanded="false">
                             <li>
-                                <a href="#" class="m-call" data-href="{{ route('net-sale') }}" data-title="Net Sale Report" data-toggle="modal" data-target="#basicModal">Net Sale Report</a>
+                                <a href="#" class="m-call" data-href="{{ route('net-sale') }}" data-title="Net Sale Report" data-toggle="modal" data-type="" data-target="#basicModal">Net Sale Report</a>
                             </li>
                             <li>
-                                <a href="#" class="m-call" data-href="{{ route('profit-loss') }}" data-title="Profit Loss Report" data-toggle="modal" data-target="#basicModal">Profit/Loss Report</a>
+                                <a href="#" class="m-call" data-href="{{ route('profit-loss') }}" data-title="Profit Loss Report" data-toggle="modal" data-type="" data-target="#basicModal">Profit/Loss Report</a>
                             </li>
                             <li>
-                                <a href="#" class="m-call" data-href="{{ route('menu-report') }}" data-title="Menu Report" data-toggle="modal" data-target="#basicModal">Menu/Report</a>
+                                <a href="#" class="m-call" data-href="{{ route('menu-report') }}" data-title="Menu Report" data-toggle="modal" data-type="category" data-target="#basicModal">Menu/Report</a>
                             </li>
                         </ul>
                     </li>

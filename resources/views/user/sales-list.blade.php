@@ -38,6 +38,7 @@
 								<th>Menu Name x Item/Kg</th>
 								<th>Total Price</th>
 								<th>Status</th>
+								<th>Order Time</th>
 								<th>Date</th>
 								<th style="text-align: center;">Action</th>
 							</tr>
@@ -53,6 +54,7 @@
 									<td>{{ ($mm) ? $mm->name : "" }} x {{ $value->qty }}</td>
 									<td>{{ $value->total_price }}</td>
 									<td>{{ ucfirst($value->status) }}</td>
+									<td>{{ date('h:i:s A' , strtotime($value->created_at)) }} - {{ (!empty($value->paid_date)) ? date('h:i:s A' , strtotime($value->paid_date)) : "--:--:--" }}</td>
 									<td>{{ date('d/m/Y' , strtotime($value->date)) }}</td>
 									<td style="text-align: center;">
 										<a href="{{ route('sales').'?orderId='.$value->id }}"><i class="fa fa-edit"></i></a>
