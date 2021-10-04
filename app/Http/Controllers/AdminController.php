@@ -184,7 +184,6 @@ class AdminController extends Controller
 
   function add_expense(Request $req){
      // $products   = Product::orderby('id')->get();
-    $data   = expense::where('id', request('id'))->first();
         if (request()->isMethod('post')) {
             // dd($req->all());
             request()->validate([
@@ -193,8 +192,8 @@ class AdminController extends Controller
                 'amount'        => 'required',
             ]);
             if (request()->has('id')) {
-            $add_expense = expense::find(request('id'));
-            $message = ['success' => 'Expense has been updated successfully'];
+                $add_expense = expense::find(request('id'));
+                $message = ['success' => 'Expense has been updated successfully'];
             }else{
               $add_expense = new expense;
               $message = ['success' => 'Expense Added successfully']; 
@@ -206,8 +205,11 @@ class AdminController extends Controller
             $add_expense->date              = date('Y-m-d');          
             $add_expense->save();
             return back()->with($message);
+        }elseif(request()->has('id')){
+            $data   = expense::where('id', request('id'))->first();
+            return view('admin.add-expense', compact('data'));
         }
-    return view('admin.add-expense', compact('data'));
+        return view('admin.add-expense');
   }
 
   function expense_list(Request $req){

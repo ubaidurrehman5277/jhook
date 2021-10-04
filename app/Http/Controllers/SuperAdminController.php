@@ -41,10 +41,12 @@ class SuperAdminController extends Controller
         $data = new gradient;
         $old_detail = [];
       }
-      $new_detail = ['This item is added on '.date('d/m/Y').' qty = '.request('qty').' price = '.request('price')];
+      $new_detail = ['This item is added on '.date('d/m/Y').' qty = '.request('qty').' price = '.request('price')." and discount = ".request('discount')."%"];
       $data->name = request('name');
       $data->kg = request('qty');
       $data->price = request('price');
+      $data->discount = request('discount');
+      $data->net_price = request('net_price');
       $data->date = date('Y-m-d');
       $data->detail = json_encode(array_merge($old_detail,$new_detail));
       $data->created_at = date('Y-m-d H:i:s');
