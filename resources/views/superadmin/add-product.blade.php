@@ -77,7 +77,7 @@
 							@error('qty') <div class="text-danger">{!! $message !!}</div> @enderror
 						</div>
 
-						<div class="col-md-6 form-group">
+						<div class="col-md-3 form-group">
 							@php
 	                            if (isset($_POST['price'])) {
 	                              $_price = $_POST['price'];
@@ -90,6 +90,34 @@
 							<label for=""> Price <span class="req">*</span></label>
 							<input type="text" name="price" class="form-control price" value="{{ $_price }}">
 							@error('price') <div class="text-danger">{!! $message !!}</div> @enderror
+						</div>
+						<div class="col-md-3 form-group">
+							@php
+	                            if (isset($_POST['discount'])) {
+	                              $_discount = $_POST['discount'];
+	                            }elseif(!empty($data)){
+	                              $_discount = $data->discount;
+	                            }else{
+	                              $_discount = 0;
+	                            }
+	                          @endphp
+							<label for=""> Discount</label>
+							<input type="number" name="discount" class="form-control discount" value="{{ $_discount }}">
+							@error('discount') <div class="text-danger">{!! $message !!}</div> @enderror
+						</div>
+						<div class="col-md-6 form-group">
+							@php
+	                            if (isset($_POST['net_price'])) {
+	                              $_net_price = $_POST['net_price'];
+	                            }elseif(!empty($data)){
+	                              $_net_price = $data->net_price;
+	                            }else{
+	                              $_net_price = "";
+	                            }
+	                          @endphp
+							<label for=""> Net Price <span class="req">*</span></label>
+							<input type="text" name="net_price" class="form-control net_price" value="{{ $_net_price }}" readonly>
+							@error('net_price') <div class="text-danger">{!! $message !!}</div> @enderror
 						</div>
 						
 						<div class="col-md-12 text-right">
@@ -115,6 +143,22 @@
 		</div>
 	</div>
 </div>
+<script>
+	$(document).ready(function(){
+		$('.discount , .price').on('change , keyup',function(){
+			var discount = $('.discount').val();
+			var price  = $('.price').val();
+			if (Number(discount) > 0) 
+			{
+				var cal = (Number(price) * Number(discount));
+				cal = Number(cal) / Number(100);
+				$('.net_price').val(Number(price) - Number(cal));
+			}else{
+				$('.net_price').val(price);
+			}
+		})
+	})
+</script>
 @if(auth('admin')->user()->type == 'superadmin')
 	@include('superadmin.layouts.footer')
 @else
